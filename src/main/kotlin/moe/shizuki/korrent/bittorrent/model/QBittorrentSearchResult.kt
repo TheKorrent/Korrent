@@ -15,7 +15,7 @@ data class QBittorrentSearchResult(
         @field:JsonProperty("fileUrl") val fileUrl: String,
         @field:JsonProperty("nbLeechers") val nbLeechers: Int,
         @field:JsonProperty("nbSeeders") val nbSeeders: Int,
-        @field:JsonProperty("pubDate") val pubDate: Int,
+        @field:JsonProperty("pubDate") val pubDate: Long,
         @field:JsonProperty("siteUrl") val siteUrl: String
     )
 }

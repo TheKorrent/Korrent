@@ -3,11 +3,11 @@ package moe.shizuki.korrent.bittorrent.model
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class QBittorrentTorrentProperty(
-    @field:JsonProperty("addition_date") val additionDate: Int,
+    @field:JsonProperty("addition_date") val additionDate: Long,
     @field:JsonProperty("comment") val comment: String,
-    @field:JsonProperty("completion_date") val completionDate: Int,
+    @field:JsonProperty("completion_date") val completionDate: Long,
     @field:JsonProperty("created_by") val createdBy: String,
-    @field:JsonProperty("creation_date") val creationDate: Int,
+    @field:JsonProperty("creation_date") val creationDate: Long,
     @field:JsonProperty("dl_limit") val dlLimit: Int,
     @field:JsonProperty("dl_speed") val dlSpeed: Int,
     @field:JsonProperty("dl_speed_avg") val dlSpeedAvg: Int,
@@ -18,7 +18,7 @@ data class QBittorrentTorrentProperty(
     @field:JsonProperty("infohash_v1") val infohashV1: String,
     @field:JsonProperty("infohash_v2") val infohashV2: String,
     @field:JsonProperty("is_private") val isPrivate: Boolean,
-    @field:JsonProperty("last_seen") val lastSeen: Int,
+    @field:JsonProperty("last_seen") val lastSeen: Long,
     @field:JsonProperty("name") val name: String,
     @field:JsonProperty("nb_connections") val nbConnections: Int,
     @field:JsonProperty("nb_connections_limit") val nbConnectionsLimit: Int,
@@ -30,7 +30,7 @@ data class QBittorrentTorrentProperty(
     @field:JsonProperty("popularity") val popularity: Double,
     @field:JsonProperty("private") val `private`: Boolean,
     @field:JsonProperty("progress") val progress: Double,
-    @field:JsonProperty("reannounce") val reannounce: Int,
+    @field:JsonProperty("reannounce") val reannounce: Long,
     @field:JsonProperty("save_path") val savePath: String,
     @field:JsonProperty("seeding_time") val seedingTime: Int,
     @field:JsonProperty("seeds") val seeds: Int,
