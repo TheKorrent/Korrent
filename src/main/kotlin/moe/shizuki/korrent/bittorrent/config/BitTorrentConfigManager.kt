@@ -28,7 +28,7 @@ class BitTorrentConfigManager {
         File("config/$name/config.json").delete()
     }
 
-    fun load(name: String, clazz: Class<Any>): Any? {
+    fun load(name: String, clazz: Class<*>): Any? {
         return objectMapper.readValue(File("config/$name/config.json"), clazz)
     }
 }
