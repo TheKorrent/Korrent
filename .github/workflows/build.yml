@@ -1,0 +1,36 @@
+name: Build
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Build full
+        run: mvn clean package
+
+      - name: Upload full
+        uses: actions/upload-artifact@v5
+        with:
+          name: korrent-full
+          path: target/*.jar
+
+      - name: Build lite
+        run: mvn clean compile jar:jar
+
+      - name: Upload lite
+        uses: actions/upload-artifact@v5
+        with:
+          name: korrent-lite
+          path: target/*.jar
