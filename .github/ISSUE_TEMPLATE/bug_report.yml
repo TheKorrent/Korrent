@@ -1,0 +1,62 @@
+name: "Bug Report"
+description: "Create a new ticket for a bug"
+title: "[Bug] "
+labels: ["Bug"]
+type: "Bug"
+
+body:
+  - type: textarea
+    id: expected_behavior
+
+    attributes:
+      label: "Expected Behavior"
+      description: "A clear and concise description of what you expected to happen."
+
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual_behavior
+
+    attributes:
+      label: "Actual Behavior"
+      description: "A clear and concise description of what actually happened."
+
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+
+    attributes:
+      label: "Reproduction steps"
+      description: "Please provide clear steps to reproduce the bug (or your code)."
+
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+
+    attributes:
+      label: "Logs"
+      description: "Please copy and paste any relevant log output."
+
+    validations:
+      required: false
+
+  - type: textarea
+    id: platform
+
+    attributes:
+      label: "Environment"
+      description: "What environment does Korrent run on?"
+
+      placeholder: |
+        Platform: Windows 11 25H2
+        Java: GraalVM 25+37.1
+        Korrent: v0.1.0
+        Plugins: Plugins you use
+
+    validations:
+      required: true
