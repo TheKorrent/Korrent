@@ -7,5 +7,8 @@ import org.springframework.boot.runApplication
 class KorrentApplication
 
 fun main(args: Array<String>) {
-	runApplication<KorrentApplication>(*args)
+	val context = runApplication<KorrentApplication>(*args)
+    val app = context.getBean(KorrentInitializer::class.java)
+
+    app.init()
 }
