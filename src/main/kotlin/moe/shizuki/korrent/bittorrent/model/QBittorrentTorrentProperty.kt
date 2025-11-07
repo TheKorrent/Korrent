@@ -8,9 +8,9 @@ data class QBittorrentTorrentProperty(
     @field:JsonProperty("completion_date") val completionDate: Long,
     @field:JsonProperty("created_by") val createdBy: String,
     @field:JsonProperty("creation_date") val creationDate: Long,
-    @field:JsonProperty("dl_limit") val dlLimit: Int,
-    @field:JsonProperty("dl_speed") val dlSpeed: Int,
-    @field:JsonProperty("dl_speed_avg") val dlSpeedAvg: Int,
+    @field:JsonProperty("dl_limit") val dlLimit: Long,
+    @field:JsonProperty("dl_speed") val dlSpeed: Long,
+    @field:JsonProperty("dl_speed_avg") val dlSpeedAvg: Long,
     @field:JsonProperty("download_path") val downloadPath: String,
     @field:JsonProperty("eta") val eta: Int,
     @field:JsonProperty("has_metadata") val hasMetadata: Boolean,
@@ -43,7 +43,7 @@ data class QBittorrentTorrentProperty(
     @field:JsonProperty("total_uploaded") val totalUploaded: Long,
     @field:JsonProperty("total_uploaded_session") val totalUploadedSession: Long,
     @field:JsonProperty("total_wasted") val totalWasted: Long,
-    @field:JsonProperty("up_limit") val upLimit: Int,
-    @field:JsonProperty("up_speed") val upSpeed: Int,
-    @field:JsonProperty("up_speed_avg") val upSpeedAvg: Int
+    @field:JsonProperty("up_limit") val upLimit: Long,
+    @field:JsonProperty("up_speed") val upSpeed: Long,
+    @field:JsonProperty("up_speed_avg") val upSpeedAvg: Long
 )
