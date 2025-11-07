@@ -1,0 +1,35 @@
+package moe.shizuki.korrent.bittorrent.task
+
+import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
+import moe.shizuki.korrent.bittorrent.event.QBittorrentEventPublisher
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
+import org.springframework.scheduling.TaskScheduler
+import org.springframework.scheduling.support.CronTrigger
+import org.springframework.stereotype.Component
+import java.util.concurrent.ScheduledFuture
+
+@Component
+class QBittorrentScheduleTask {
+    @Autowired
+    private lateinit var taskScheduler: TaskScheduler
+
+    @Autowired
+    private lateinit var eventbus: ApplicationContext
+
+    private val tasks: HashMap<String,  ScheduledFuture<*>?> = HashMap()
+
+    fun add(client: QBittorrentClient) {
+        tasks[client.getClientInfo().name] = taskScheduler.schedule(
+            {
+                QBittorrentEventPublisher(eventbus).polling(client)
+            },
+            CronTrigger("*/5 * * * * *")
+        )
+    }
+
+    fun remove(clientName: String) {
+        tasks[clientName]?.cancel(false)
+        tasks.remove(clientName)
+    }
+}
