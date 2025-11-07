@@ -20,9 +20,11 @@ class QBittorrentScheduleTask {
     private val tasks: HashMap<String,  ScheduledFuture<*>?> = HashMap()
 
     fun add(client: QBittorrentClient) {
+        val publisher = QBittorrentEventPublisher(eventbus)
+
         tasks[client.getClientInfo().name] = taskScheduler.schedule(
             {
-                QBittorrentEventPublisher(eventbus).polling(client)
+                publisher.polling(client)
             },
             CronTrigger("*/5 * * * * *")
         )
