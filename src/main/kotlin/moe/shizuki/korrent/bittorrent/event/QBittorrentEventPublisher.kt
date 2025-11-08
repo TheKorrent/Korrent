@@ -1,10 +1,10 @@
 package moe.shizuki.korrent.bittorrent.event
 
+import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
-import org.springframework.context.ApplicationContext
 
 class QBittorrentEventPublisher(
-    val eventbus: ApplicationContext
+    val eventbus: EventBus,
 ) {
     private var rid = -1
 
@@ -51,27 +51,28 @@ class QBittorrentEventPublisher(
                     continue
                 }
 
-                eventbus.publishEvent(QBittorrentCategoryCreatedEvent(client, category.value))
+                eventbus.post(QBittorrentCategoryCreatedEvent(client, category.value))
                 categories.add(category.value.name)
             }
         }
 
         if (syncData.categoriesRemoved != null && syncData.categoriesRemoved.isNotEmpty()) {
             for (category in syncData.categoriesRemoved) {
-                eventbus.publishEvent(QBittorrentCategoryRemovedEvent(client, category))
+                eventbus.post(QBittorrentCategoryRemovedEvent(client, category))
                 categories.remove(category)
             }
         }
 
         if (syncData.tags != null && syncData.tags.isNotEmpty()) {
             for (tag in syncData.tags) {
-                eventbus.publishEvent(QBittorrentTagCreatedEvent(client, tag))
+                eventbus.post(QBittorrentTagCreatedEvent(client, tag))
+                println("Tag $tag")
             }
         }
 
         if (syncData.tagsRemoved != null && syncData.tagsRemoved.isNotEmpty()) {
             for (tag in syncData.tagsRemoved) {
-                eventbus.publishEvent(QBittorrentTagRemovedEvent(client, tag))
+                eventbus.post(QBittorrentTagRemovedEvent(client, tag))
             }
         }
 
@@ -83,7 +84,7 @@ class QBittorrentEventPublisher(
 
                 for (torrent in tracker.value) {
                     if (seenTorrents.add(torrent)) {
-                        eventbus.publishEvent(QBittorrentTrackerAddedEvent(client, tracker.key, torrent))
+                        eventbus.post(QBittorrentTrackerAddedEvent(client, tracker.key, torrent))
                     }
                 }
             }
@@ -91,7 +92,7 @@ class QBittorrentEventPublisher(
 
         if (syncData.trackersRemoved != null && syncData.trackersRemoved.isNotEmpty()) {
             for (tracker in syncData.trackersRemoved) {
-                eventbus.publishEvent(QBittorrentTrackerRemovedEvent(client, tracker))
+                eventbus.post(QBittorrentTrackerRemovedEvent(client, tracker))
                 trackers.remove(tracker)
             }
         }
@@ -102,14 +103,14 @@ class QBittorrentEventPublisher(
                     continue
                 }
 
-                eventbus.publishEvent(QBittorrentTorrentAddedEvent(client, torrent.key))
+                eventbus.post(QBittorrentTorrentAddedEvent(client, torrent.key))
                 torrents.add(torrent.key)
             }
         }
 
         if (syncData.torrentsRemoved != null && syncData.torrentsRemoved.isNotEmpty()) {
             for (torrent in syncData.torrentsRemoved) {
-                eventbus.publishEvent(QBittorrentTorrentRemovedEvent(client, torrent))
+                eventbus.post(QBittorrentTorrentRemovedEvent(client, torrent))
                 torrents.remove(torrent)
             }
         }

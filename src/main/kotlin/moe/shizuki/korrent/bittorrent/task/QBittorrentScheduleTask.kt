@@ -1,9 +1,9 @@
 package moe.shizuki.korrent.bittorrent.task
 
+import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
 import moe.shizuki.korrent.bittorrent.event.QBittorrentEventPublisher
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.ApplicationContext
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.support.CronTrigger
 import org.springframework.stereotype.Component
@@ -15,7 +15,7 @@ class QBittorrentScheduleTask {
     private lateinit var taskScheduler: TaskScheduler
 
     @Autowired
-    private lateinit var eventbus: ApplicationContext
+    private lateinit var eventbus: EventBus
 
     private val tasks: HashMap<String,  ScheduledFuture<*>?> = HashMap()
 
