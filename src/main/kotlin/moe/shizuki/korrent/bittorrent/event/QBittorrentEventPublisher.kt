@@ -66,7 +66,6 @@ class QBittorrentEventPublisher(
         if (syncData.tags != null && syncData.tags.isNotEmpty()) {
             for (tag in syncData.tags) {
                 eventbus.post(QBittorrentTagCreatedEvent(client, tag))
-                println("Tag $tag")
             }
         }
 
