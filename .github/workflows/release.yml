@@ -61,6 +61,8 @@ jobs:
           distribution: 'temurin'
           java-version: '25'
           cache: 'maven'
+          gpg-private-key: ${{ secrets.GPG_SECRET }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Publish to GitHub Packages
         run: mvn --batch-mode deploy -D spring-boot.repackage.skip=true
