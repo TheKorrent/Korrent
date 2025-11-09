@@ -20,6 +20,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '25'
+          cache: 'maven'
 
       - name: Publish to GitHub Packages
         run: mvn --batch-mode deploy -D spring-boot.repackage.skip=true
@@ -31,6 +32,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '25'
+          cache: 'maven'
           server-id: central
           server-username: ${{ secrets.SERVER_USERNAME }}
           server-password: ${{ secrets.SERVER_PASSWORD }}

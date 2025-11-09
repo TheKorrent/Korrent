@@ -19,6 +19,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '25'
+          cache: 'maven'
 
       - name: Build
         run: mvn clean package
