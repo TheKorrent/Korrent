@@ -127,6 +127,8 @@
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 
+        <finalName>korrent</finalName>
+
 		<plugins>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
