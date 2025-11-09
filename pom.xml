@@ -20,6 +20,14 @@
 		<kotlin.version>2.2.21</kotlin.version>
 	</properties>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/TheKorrent/Korrent</url>
+        </repository>
+    </distributionManagement>
+
 	<dependencies>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
