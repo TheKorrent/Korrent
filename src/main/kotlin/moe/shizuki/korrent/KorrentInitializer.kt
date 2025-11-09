@@ -78,8 +78,6 @@ class KorrentInitializer {
 
         val plugins = pluginManager.getExtensions(KorrentPlugin::class.java)
 
-        println(plugins.size)
-
         for (plugin in plugins) {
             plugin.initialize(eventbus)
         }
