@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Setup Java
+      - name: Setup Java for GitHub Packages
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
@@ -25,3 +25,21 @@ jobs:
         run: mvn --batch-mode deploy -D spring-boot.repackage.skip=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Java for Maven Central
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+          server-id: central
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
+          gpg-private-key: ${{ secrets.GPG_SECRET }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Publish to Maven Central
+        run: mvn deploy -D spring-boot.repackage.skip=true
+        env:
+          SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
