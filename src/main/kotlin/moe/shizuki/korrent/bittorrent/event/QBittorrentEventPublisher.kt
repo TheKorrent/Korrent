@@ -48,6 +48,8 @@ class QBittorrentEventPublisher(
         if (syncData.categories != null && syncData.categories.isNotEmpty()) {
             for (category in syncData.categories) {
                 if (categories.contains(category.value.name)) {
+                    eventbus.post(QBittorrentCategoryChangedEvent(client, category.value))
+
                     continue
                 }
 
