@@ -24,6 +24,8 @@ class BeanConfig {
         val configFile = File("config/korrent.json")
 
         if (!configFile.exists()) {
+            configFile.parentFile.mkdirs()
+
             jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValue(configFile, KorrentConfig("Korrent"))
         }
 
