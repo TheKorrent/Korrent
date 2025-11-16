@@ -23,5 +23,13 @@ class ExceptionHandler {
         return ResponseData(HttpStatus.METHOD_NOT_ALLOWED.value(), "Method not allowed")
     }
 
+    @ExceptionHandler
+    fun handleClientNotFoundException(exception: ClientNotFoundException): ResponseData<Void> {
+        return ResponseData(HttpStatus.NOT_FOUND.value(), exception.message)
+    }
 
+    @ExceptionHandler
+    fun handleClientAlreadyExistsException(exception: ClientAlreadyExistsException): ResponseData<Void> {
+        return ResponseData(HttpStatus.CONFLICT.value(), exception.message)
+    }
 }
