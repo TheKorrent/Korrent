@@ -29,6 +29,6 @@ class BeanConfig {
             jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValue(configFile, KorrentConfig("Korrent"))
         }
 
-        return jacksonObjectMapper().readValue(File("config/korrent.json").readText(), KorrentConfig::class.java)
+        return jacksonObjectMapper().readValue(configFile.readText(), KorrentConfig::class.java)
     }
 }
