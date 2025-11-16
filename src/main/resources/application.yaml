@@ -1,3 +1,8 @@
 spring:
   application:
     name: Korrent
+
+sa-token:
+  token-name: Korrent-Token
+  token-style: random-128
+  is-print: false
