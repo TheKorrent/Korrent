@@ -32,4 +32,14 @@ class ExceptionHandler {
     fun handleClientAlreadyExistsException(exception: ClientAlreadyExistsException): ResponseData<Void> {
         return ResponseData(HttpStatus.CONFLICT.value(), exception.message)
     }
+
+    @ExceptionHandler
+    fun handlePluginNotFoundException(exception: PluginNotFoundException): ResponseData<Void> {
+        return ResponseData(HttpStatus.NOT_FOUND.value(), exception.message)
+    }
+
+    @ExceptionHandler
+    fun handlePluginAlreadyExistsException(exception: PluginAlreadyExistsException): ResponseData<Void> {
+        return ResponseData(HttpStatus.CONFLICT.value(), exception.message)
+    }
 }
