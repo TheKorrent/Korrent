@@ -125,12 +125,16 @@ class QBittorrentEventPublisher(
                 val info = torrents[torrent.key]
 
                 if (info != null && info.state != null && torrent.value.state != null) {
-                    if (info.state == torrent.value.state) {
+                    if (info.state != torrent.value.state) {
                         eventbus.post(QBittorrentTorrentStateChangedEvent(client, info.state, torrent.value.state!!))
 
                         if (torrent.value.state == QBittorrentState.STOPPED_UPLOAD) {
                             eventbus.post(QBittorrentTorrentStoppedUploadEvent(client, torrent.key))
                         }
+                    }
+
+                    if (torrent.value.state == QBittorrentState.UPLOADING) {
+                        eventbus.post(QBittorrentTorrentUploadingEvent(client, torrent.key))
                     }
                 }
 
