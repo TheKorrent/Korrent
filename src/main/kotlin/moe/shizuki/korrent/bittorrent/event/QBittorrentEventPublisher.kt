@@ -2,6 +2,8 @@ package moe.shizuki.korrent.bittorrent.event
 
 import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState
+import moe.shizuki.korrent.bittorrent.model.QBittorrentTorrentInfo
 
 class QBittorrentEventPublisher(
     val eventbus: EventBus,
@@ -10,7 +12,7 @@ class QBittorrentEventPublisher(
 
     private val categories = HashSet<String>()
     private val trackers = HashMap<String, HashSet<String>>()
-    private val torrents = HashSet<String>()
+    private val torrents = HashMap<String, QBittorrentTorrentInfo>()
 
     fun polling(client: QBittorrentClient) {
         val syncData = client.getSyncMainData(rid).execute().body() ?: return
@@ -38,7 +40,7 @@ class QBittorrentEventPublisher(
 
             if (syncData.torrents != null && syncData.torrents.isNotEmpty()) {
                 for (torrent in syncData.torrents) {
-                    torrents.add(torrent.key)
+                    torrents[torrent.key] = torrent.value
                 }
             }
 
@@ -48,6 +50,8 @@ class QBittorrentEventPublisher(
         if (syncData.categories != null && syncData.categories.isNotEmpty()) {
             for (category in syncData.categories) {
                 if (categories.contains(category.value.name)) {
+                    eventbus.post(QBittorrentCategoryChangedEvent(client, category.value))
+
                     continue
                 }
 
@@ -76,16 +80,32 @@ class QBittorrentEventPublisher(
         }
 
         if (syncData.trackers != null && syncData.trackers.isNotEmpty()) {
+            for (tracker in trackers) {
+                for (torrent in tracker.value) {
+                    if (syncData.trackers[tracker.key]?.contains(torrent) == true) {
+                        continue
+                    }
+
+                    eventbus.post(QBittorrentTorrentTrackerRemovedEvent(client, torrent, tracker.key))
+                }
+            }
+
             for (tracker in syncData.trackers) {
-                val seenTorrents = trackers.getOrPut(tracker.key) {
-                    HashSet()
+                if (!trackers.containsKey(tracker.key)) {
+                    eventbus.post(QBittorrentTrackerAddedEvent(client, tracker.key))
                 }
 
-                for (torrent in tracker.value) {
-                    if (seenTorrents.add(torrent)) {
-                        eventbus.post(QBittorrentTrackerAddedEvent(client, tracker.key, torrent))
+                val torrents = tracker.value.toHashSet()
+
+                for (torrent in torrents) {
+                    if (trackers.get(torrent) != null) {
+                        continue
                     }
+
+                    eventbus.post(QBittorrentTorrentTrackerAddedEvent(client, torrent, tracker.key))
                 }
+
+                trackers[tracker.key] = torrents
             }
         }
 
@@ -98,12 +118,39 @@ class QBittorrentEventPublisher(
 
         if (syncData.torrents != null && syncData.torrents.isNotEmpty()) {
             for (torrent in syncData.torrents) {
-                if (torrents.contains(torrent.key)) {
-                    continue
+                if (!torrents.contains(torrent.key)) {
+                    eventbus.post(QBittorrentTorrentAddedEvent(client, torrent.key))
                 }
 
-                eventbus.post(QBittorrentTorrentAddedEvent(client, torrent.key))
-                torrents.add(torrent.key)
+                val info = torrents[torrent.key]
+
+                if (torrent.value.state != null) {
+                    if (torrent.value.state == QBittorrentState.STOPPED_UPLOAD) {
+                        eventbus.post(QBittorrentTorrentStoppedUploadEvent(client, torrent.key))
+                    }
+
+                    if (torrent.value.state == QBittorrentState.STOPPED_DOWNLOAD) {
+                        eventbus.post(QBittorrentTorrentStoppedDownloadEvent(client, torrent.key))
+                    }
+
+                    if (torrent.value.state!!.type == QBittorrentState.Type.UPLOAD && info?.state?.type == QBittorrentState.Type.DOWNLOAD) {
+                        eventbus.post(QBittorrentTorrentDownloadedEvent(client, torrent.key))
+                    }
+
+                    if (info?.state != torrent.value.state) {
+                        eventbus.post(QBittorrentTorrentStateChangedEvent(client, torrent.key, info?.state!!, torrent.value.state!!))
+                    }
+                }
+
+                if (torrents[torrent.key]?.state == QBittorrentState.UPLOADING) {
+                    eventbus.post(QBittorrentTorrentUploadingEvent(client, torrent.key))
+                }
+
+                if (torrents[torrent.key]?.state == QBittorrentState.DOWNLOADING) {
+                    eventbus.post(QBittorrentTorrentDownloadingEvent(client, torrent.key))
+                }
+
+                torrents[torrent.key] = torrents[torrent.key]?.mergeWith(torrent.value) as QBittorrentTorrentInfo
             }
         }
 
@@ -113,5 +160,7 @@ class QBittorrentEventPublisher(
                 torrents.remove(torrent)
             }
         }
+
+        eventbus.post(QBittorrentPollingEvent(client))
     }
 }
