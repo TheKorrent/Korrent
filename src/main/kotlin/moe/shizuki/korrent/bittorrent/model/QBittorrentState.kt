@@ -1,23 +1,32 @@
 package moe.shizuki.korrent.bittorrent.model
 
-enum class QBittorrentState(state: String) {
-    ERROR("error"),
-    MISSING_FILES("missingFiles"),
-    UPLOADING("uploading"),
-    STOPPED_UPLOAD("stoppedUP"),
-    QUEUED_UPLOAD("queuedUP"),
-    STALLED_UPLOAD("stalledUP"),
-    CHECKING_FINISHED("checkingUP"),
-    FORCED_UPLOAD("forcedUP"),
-    ALLOCATING("allocating"),
-    DOWNLOADING("downloading"),
-    META_DOWNLOAD("metaDL"),
-    STOPPED_DOWNLOAD("stoppedDL"),
-    QUEUED_DOWNLOAD("queuedDL"),
-    STALLED_DOWNLOAD("stalledDL"),
-    CHECKING_DOWNLOAD("checkingDL"),
-    FORCED_DOWNLOAD("forcedDL"),
-    CHECKING_RESUME_DATA("checkingResumeData"),
-    MOVING("moving"),
-    UNKNOWN("unknown")
+enum class QBittorrentState(
+    val state: String,
+    val type: Type
+) {
+    ERROR("error", Type.NONE),
+    MISSING_FILES("missingFiles", Type.NONE),
+    UPLOADING("uploading", Type.UPLOAD),
+    STOPPED_UPLOAD("stoppedUP", Type.UPLOAD),
+    QUEUED_UPLOAD("queuedUP", Type.UPLOAD),
+    STALLED_UPLOAD("stalledUP", Type.UPLOAD),
+    CHECKING_FINISHED("checkingUP", Type.UPLOAD),
+    FORCED_UPLOAD("forcedUP", Type.UPLOAD),
+    ALLOCATING("allocating", Type.NONE),
+    DOWNLOADING("downloading", Type.DOWNLOAD),
+    META_DOWNLOAD("metaDL", Type.DOWNLOAD),
+    STOPPED_DOWNLOAD("stoppedDL", Type.DOWNLOAD),
+    QUEUED_DOWNLOAD("queuedDL", Type.DOWNLOAD),
+    STALLED_DOWNLOAD("stalledDL", Type.DOWNLOAD),
+    CHECKING_DOWNLOAD("checkingDL", Type.DOWNLOAD),
+    FORCED_DOWNLOAD("forcedDL", Type.DOWNLOAD),
+    CHECKING_RESUME_DATA("checkingResumeData", Type.NONE),
+    MOVING("moving", Type.NONE),
+    UNKNOWN("unknown", Type.NONE),;
+
+    enum class Type {
+        UPLOAD,
+        DOWNLOAD,
+        NONE
+    }
 }
