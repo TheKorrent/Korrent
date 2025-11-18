@@ -124,33 +124,33 @@ class QBittorrentEventPublisher(
 
                 val info = torrents[torrent.key]
 
-                if (info != null && info.state != null && torrent.value.state != null) {
-                    if (info.state != torrent.value.state) {
-                        eventbus.post(QBittorrentTorrentStateChangedEvent(client, info.state, torrent.value.state!!))
-
-                        if (torrent.value.state == QBittorrentState.STOPPED_UPLOAD) {
-                            eventbus.post(QBittorrentTorrentStoppedUploadEvent(client, torrent.key))
-                        }
-
-                        if (torrent.value.state == QBittorrentState.STOPPED_DOWNLOAD) {
-                            eventbus.post(QBittorrentTorrentStoppedDownloadEvent(client, torrent.key))
-                        }
-
-                        if (torrent.value.state!!.type == QBittorrentState.Type.UPLOAD && info.state.type == QBittorrentState.Type.DOWNLOAD) {
-                            eventbus.post(QBittorrentTorrentDownloadedEvent(client, torrent.key))
-                        }
+                if (torrent.value.state != null) {
+                    if (torrent.value.state == QBittorrentState.STOPPED_UPLOAD) {
+                        eventbus.post(QBittorrentTorrentStoppedUploadEvent(client, torrent.key))
                     }
 
-                    if (torrent.value.state == QBittorrentState.UPLOADING) {
-                        eventbus.post(QBittorrentTorrentUploadingEvent(client, torrent.key))
+                    if (torrent.value.state == QBittorrentState.STOPPED_DOWNLOAD) {
+                        eventbus.post(QBittorrentTorrentStoppedDownloadEvent(client, torrent.key))
                     }
 
-                    if (torrent.value.state == QBittorrentState.DOWNLOADING) {
-                        eventbus.post(QBittorrentTorrentDownloadingEvent(client, torrent.key))
+                    if (torrent.value.state!!.type == QBittorrentState.Type.UPLOAD && info?.state?.type == QBittorrentState.Type.DOWNLOAD) {
+                        eventbus.post(QBittorrentTorrentDownloadedEvent(client, torrent.key))
+                    }
+
+                    if (info?.state != torrent.value.state) {
+                        eventbus.post(QBittorrentTorrentStateChangedEvent(client, info?.state!!, torrent.value.state!!))
                     }
                 }
 
-                torrents[torrent.key]?.mergeWith(torrent.value)
+                if (torrents[torrent.key]?.state == QBittorrentState.UPLOADING) {
+                    eventbus.post(QBittorrentTorrentUploadingEvent(client, torrent.key))
+                }
+
+                if (torrent.value.state == QBittorrentState.DOWNLOADING) {
+                    eventbus.post(QBittorrentTorrentDownloadingEvent(client, torrent.key))
+                }
+
+                torrents[torrent.key] = torrents[torrent.key]?.mergeWith(torrent.value) as QBittorrentTorrentInfo
             }
         }
 
