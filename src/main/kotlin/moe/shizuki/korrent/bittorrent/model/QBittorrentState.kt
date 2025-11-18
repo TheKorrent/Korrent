@@ -27,31 +27,12 @@ enum class QBittorrentState(
     UNKNOWN("unknown", Type.NONE);
 
     companion object {
+        private val MAP = entries.associateBy { it.state }
+
         @JvmStatic
         @JsonCreator
         fun fromString(state: String): QBittorrentState {
-            return when (state) {
-                "error" -> ERROR
-                "missingFiles" -> MISSING_FILES
-                "uploading" -> UPLOADING
-                "stoppedUP" -> STOPPED_UPLOAD
-                "queuedUP" -> QUEUED_UPLOAD
-                "stalledUP" -> STALLED_UPLOAD
-                "checkingUP" -> CHECKING_FINISHED
-                "forcedUP" -> FORCED_UPLOAD
-                "allocating" -> ALLOCATING
-                "downloading" -> DOWNLOADING
-                "metaDL" -> META_DOWNLOAD
-                "stoppedDL" -> STOPPED_DOWNLOAD
-                "queuedDL" -> QUEUED_DOWNLOAD
-                "stalledDL" -> STALLED_DOWNLOAD
-                "checkingDL" -> CHECKING_DOWNLOAD
-                "forcedDL" -> FORCED_DOWNLOAD
-                "checkingResumeData" -> CHECKING_RESUME_DATA
-                "moving" -> MOVING
-                "unknown" -> UNKNOWN
-                else -> valueOf(state)
-            }
+            return MAP[state] ?: UNKNOWN
         }
     }
 
