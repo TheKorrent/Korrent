@@ -136,6 +136,10 @@ class QBittorrentEventPublisher(
                     if (torrent.value.state == QBittorrentState.UPLOADING) {
                         eventbus.post(QBittorrentTorrentUploadingEvent(client, torrent.key))
                     }
+
+                    if (torrent.value.state == QBittorrentState.DOWNLOADING) {
+                        eventbus.post(QBittorrentTorrentDownloadingEvent(client, torrent.key))
+                    }
                 }
 
                 torrents[torrent.key]?.mergeWith(torrent.value)
