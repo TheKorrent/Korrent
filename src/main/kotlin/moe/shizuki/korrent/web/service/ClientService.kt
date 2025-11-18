@@ -45,8 +45,8 @@ class ClientService {
 
         configManager.remove(name)
         configManager.add(client)
-        configManager.load(jacksonObjectMapper().readTree(client).get("common").get("name").asText())
         clientManager.remove(name)
+        configManager.load(jacksonObjectMapper().readTree(client).get("common").get("name").asText())
     }
 
     fun removeClient(clientName: String) {
