@@ -78,16 +78,32 @@ class QBittorrentEventPublisher(
         }
 
         if (syncData.trackers != null && syncData.trackers.isNotEmpty()) {
+            for (tracker in trackers) {
+                for (torrent in tracker.value) {
+                    if (syncData.trackers[tracker.key]?.contains(torrent) == true) {
+                        continue
+                    }
+
+                    eventbus.post(QBittorrentTorrentTrackerRemovedEvent(client, torrent, tracker.key))
+                }
+            }
+
             for (tracker in syncData.trackers) {
-                val seenTorrents = trackers.getOrPut(tracker.key) {
-                    HashSet()
+                if (!trackers.containsKey(tracker.key)) {
+                    eventbus.post(QBittorrentTrackerAddedEvent(client, tracker.key))
                 }
 
-                for (torrent in tracker.value) {
-                    if (seenTorrents.add(torrent)) {
-                        eventbus.post(QBittorrentTrackerAddedEvent(client, tracker.key, torrent))
+                val torrents = tracker.value.toHashSet()
+
+                for (torrent in torrents) {
+                    if (trackers.get(torrent) != null) {
+                        continue
                     }
+
+                    eventbus.post(QBittorrentTorrentTrackerAddedEvent(client, torrent, tracker.key))
                 }
+
+                trackers[tracker.key] = torrents
             }
         }
 
