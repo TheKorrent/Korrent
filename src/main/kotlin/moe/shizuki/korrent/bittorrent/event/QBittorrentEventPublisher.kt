@@ -146,7 +146,7 @@ class QBittorrentEventPublisher(
                     eventbus.post(QBittorrentTorrentUploadingEvent(client, torrent.key))
                 }
 
-                if (torrent.value.state == QBittorrentState.DOWNLOADING) {
+                if (torrents[torrent.key]?.state == QBittorrentState.DOWNLOADING) {
                     eventbus.post(QBittorrentTorrentDownloadingEvent(client, torrent.key))
                 }
 
