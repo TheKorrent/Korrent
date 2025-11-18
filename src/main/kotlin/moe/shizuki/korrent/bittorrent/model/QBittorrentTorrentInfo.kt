@@ -1,6 +1,7 @@
 package moe.shizuki.korrent.bittorrent.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import kotlin.reflect.full.primaryConstructor
 
 data class QBittorrentTorrentInfo(
     @field:JsonProperty("added_on") val addedOn: Long?,
@@ -59,4 +60,19 @@ data class QBittorrentTorrentInfo(
     @field:JsonProperty("uploaded") val uploaded: Long?,
     @field:JsonProperty("uploaded_session") val uploadedSession: Long?,
     @field:JsonProperty("upspeed") val upspeed: Long?
-)
+) {
+    fun mergeWith(other: QBittorrentTorrentInfo): QBittorrentTorrentInfo {
+        val kClass = this::class
+        val props = kClass.members.filterIsInstance<kotlin.reflect.KProperty1<QBittorrentTorrentInfo, Any?>>()
+
+        val values = props.associate { prop ->
+            val newValue = prop.get(other)
+            val oldValue = prop.get(this)
+            prop.name to (newValue ?: oldValue)
+        }
+
+        return kClass.primaryConstructor!!.callBy(
+            kClass.primaryConstructor!!.parameters.associateWith { values[it.name] }
+        )
+    }
+}

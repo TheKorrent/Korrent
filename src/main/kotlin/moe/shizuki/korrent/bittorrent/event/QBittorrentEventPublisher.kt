@@ -2,6 +2,7 @@ package moe.shizuki.korrent.bittorrent.event
 
 import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState
 import moe.shizuki.korrent.bittorrent.model.QBittorrentTorrentInfo
 
 class QBittorrentEventPublisher(
@@ -121,11 +122,19 @@ class QBittorrentEventPublisher(
                     eventbus.post(QBittorrentTorrentAddedEvent(client, torrent.key))
                 }
 
-                if (torrents[torrent.key]?.state != null && torrent.value.state != null && torrent.value.state == torrents[torrent.key]?.state) {
-                    eventbus.post(QBittorrentTorrentStateChangedEvent(client, torrents[torrent.key]?.state!!, torrent.value.state!!))
+                val info = torrents[torrent.key]
+
+                if (info != null && info.state != null && torrent.value.state != null) {
+                    if (info.state == torrent.value.state) {
+                        eventbus.post(QBittorrentTorrentStateChangedEvent(client, info.state, torrent.value.state!!))
+
+                        if (torrent.value.state == QBittorrentState.STOPPED_UPLOAD) {
+                            eventbus.post(QBittorrentTorrentStoppedUploadEvent(client, torrent.key))
+                        }
+                    }
                 }
 
-                torrents[torrent.key] = torrent.value
+                torrents[torrent.key]?.mergeWith(torrent.value)
             }
         }
 
