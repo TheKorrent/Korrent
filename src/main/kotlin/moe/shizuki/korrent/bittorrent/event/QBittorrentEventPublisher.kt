@@ -115,5 +115,7 @@ class QBittorrentEventPublisher(
                 torrents.remove(torrent)
             }
         }
+
+        eventbus.post(QBittorrentPollingEvent(client))
     }
 }
