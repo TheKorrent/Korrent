@@ -131,6 +131,10 @@ class QBittorrentEventPublisher(
                         if (torrent.value.state == QBittorrentState.STOPPED_UPLOAD) {
                             eventbus.post(QBittorrentTorrentStoppedUploadEvent(client, torrent.key))
                         }
+
+                        if (torrent.value.state == QBittorrentState.STOPPED_DOWNLOAD) {
+                            eventbus.post(QBittorrentTorrentStoppedDownloadEvent(client, torrent.key))
+                        }
                     }
 
                     if (torrent.value.state == QBittorrentState.UPLOADING) {
