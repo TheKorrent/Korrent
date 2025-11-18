@@ -1,5 +1,6 @@
 package moe.shizuki.korrent.web.service
 
+import moe.shizuki.korrent.web.exception.InvalidPluginException
 import moe.shizuki.korrent.web.exception.PluginAlreadyExistsException
 import moe.shizuki.korrent.web.exception.PluginNotFoundException
 import org.pf4j.DefaultPluginManager
@@ -15,6 +16,30 @@ class PluginService {
     @Autowired
     lateinit var pluginManager: DefaultPluginManager
 
+    fun addPlugin(file: MultipartFile) {
+        val temp = File("data/cache/${file.originalFilename}.temp")
+
+        temp.parentFile.mkdirs()
+        file.transferTo(File(temp.absolutePath))
+
+        val id = runCatching {
+            JarFile(temp).use { jar ->
+                jar.manifest.mainAttributes.getValue("Plugin-Id")
+            }
+        }.getOrElse {
+            throw InvalidPluginException("Plugin cannot be parsed")
+        }
+
+        val plugin = File("plugins/${id}.jar")
+
+        if (plugin.exists()) {
+            throw PluginAlreadyExistsException("Plugin already exists")
+        }
+
+        temp.copyTo(plugin)
+        pluginManager.loadPlugin(plugin.toPath())
+    }
+
     fun getPlugins(): List<PluginDescriptor> {
         return pluginManager.plugins.toList().map { plugin ->
             plugin.descriptor
@@ -25,38 +50,14 @@ class PluginService {
         return (pluginManager.getPlugin(id) ?: throw PluginNotFoundException("Plugin not found")).descriptor
     }
 
-    fun addPlugin(file: MultipartFile) {
-        val temp = File("data/cache/${file.originalFilename}.temp")
-
-        temp.parentFile.mkdirs()
-        temp.createNewFile()
-
-        file.transferTo(File(temp.absolutePath))
-
-        val jar = JarFile(temp)
-        val id = jar.manifest.mainAttributes.getValue("Plugin-Id")
-
-        jar.close()
-
-        val plugin = File("plugins/${id}.jar")
-
-        if (plugin.exists()) {
-            throw PluginAlreadyExistsException("Plugin already exists")
-        }
-
-        temp.copyTo(plugin)
-
-        pluginManager.loadPlugin(plugin.toPath())
+    fun updatePlugin(id: String, file: MultipartFile) {
+        removePlugin(id)
+        addPlugin(file)
     }
 
     fun removePlugin(id: String) {
         pluginManager.getPlugin(id) ?: throw PluginNotFoundException("Plugin not found")
         pluginManager.deletePlugin(id)
-    }
-
-    fun updatePlugin(id: String, file: MultipartFile) {
-        removePlugin(id)
-        addPlugin(file)
     }
 
     fun enablePlugin(id: String) {

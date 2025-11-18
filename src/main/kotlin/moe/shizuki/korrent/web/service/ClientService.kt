@@ -17,16 +17,6 @@ class ClientService {
     @Autowired
     private lateinit var configManager: BitTorrentConfigManager
 
-    fun getClients(): List<BitTorrentClientInfo> {
-        return clientManager.list().map { client ->
-            client.getClientInfo()
-        }
-    }
-
-    fun getClient(clientName: String): BitTorrentClientInfo {
-        return clientManager.get(clientName)?.getClientInfo() ?: throw ClientNotFoundException("Client not found")
-    }
-
     fun addClient(client: String) {
         val name = jacksonObjectMapper().readTree(client).get("common").get("name").asText()
 
@@ -38,13 +28,14 @@ class ClientService {
         configManager.load(name)
     }
 
-    fun removeClient(clientName: String) {
-        if (clientManager.get(clientName) == null) {
-            throw ClientNotFoundException("Client not found")
+    fun getClients(): List<BitTorrentClientInfo> {
+        return clientManager.list().map { client ->
+            client.getClientInfo()
         }
+    }
 
-        clientManager.remove(clientName)
-        configManager.remove(clientName)
+    fun getClient(clientName: String): BitTorrentClientInfo {
+        return clientManager.get(clientName)?.getClientInfo() ?: throw ClientNotFoundException("Client not found")
     }
 
     fun updateClient(name: String, client: String) {
@@ -55,7 +46,15 @@ class ClientService {
         configManager.remove(name)
         configManager.add(client)
         configManager.load(jacksonObjectMapper().readTree(client).get("common").get("name").asText())
-
         clientManager.remove(name)
+    }
+
+    fun removeClient(clientName: String) {
+        if (clientManager.get(clientName) == null) {
+            throw ClientNotFoundException("Client not found")
+        }
+
+        clientManager.remove(clientName)
+        configManager.remove(clientName)
     }
 }

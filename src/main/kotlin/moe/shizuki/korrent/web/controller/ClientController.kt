@@ -20,6 +20,13 @@ class ClientController {
     @Autowired
     private lateinit var service: ClientService
 
+    @PostMapping
+    fun addClient(@RequestBody client: String): ResponseData<Void> {
+        service.addClient(client)
+
+        return ResponseData(HttpStatus.CREATED.value(), "Add client successful")
+    }
+
     @GetMapping
     fun getClients(): ResponseData<List<BitTorrentClientInfo>> {
         return ResponseData(HttpStatus.OK.value(), "Get clients successful", service.getClients())
@@ -30,11 +37,11 @@ class ClientController {
         return ResponseData(HttpStatus.OK.value(), "Get client successful", service.getClient(clientName))
     }
 
-    @PostMapping
-    fun addClient(@RequestBody client: String): ResponseData<Void> {
-        service.addClient(client)
+    @PutMapping("/{clientName}")
+    fun updateClient(@PathVariable clientName: String, @RequestBody client: String): ResponseData<Void> {
+        service.updateClient(clientName, client)
 
-        return ResponseData(HttpStatus.CREATED.value(), "Add client successful")
+        return ResponseData(HttpStatus.NO_CONTENT.value(), "Update client successful")
     }
 
     @DeleteMapping("/{clientName}")
@@ -42,12 +49,5 @@ class ClientController {
         service.removeClient(clientName)
 
         return ResponseData(HttpStatus.NO_CONTENT.value(), "Remove client successful")
-    }
-
-    @PutMapping("/{clientName}")
-    fun updateClient(@PathVariable clientName: String, @RequestBody client: String): ResponseData<Void> {
-        service.updateClient(clientName, client)
-
-        return ResponseData(HttpStatus.NO_CONTENT.value(), "Update client successful")
     }
 }

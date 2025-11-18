@@ -14,6 +14,13 @@ class PluginController {
     @Autowired
     private lateinit var service: PluginService
 
+    @PostMapping
+    fun addPlugin(@RequestParam("file") file: MultipartFile): ResponseData<Void> {
+        service.addPlugin(file)
+
+        return ResponseData(HttpStatus.CREATED.value(), "Add plugin successful")
+    }
+
     @GetMapping
     fun getPlugins(): ResponseData<List<PluginDescriptor>> {
         return ResponseData(HttpStatus.OK.value(), "Get plugins successful", service.getPlugins())
@@ -24,11 +31,11 @@ class PluginController {
         return ResponseData(HttpStatus.OK.value(), "Get plugin successful", service.getPlugin(id))
     }
 
-    @PostMapping
-    fun addPlugin(@RequestParam("file") file: MultipartFile): ResponseData<Void> {
-        service.addPlugin(file)
+    @PutMapping("/{id}")
+    fun updatePlugin(@PathVariable("id") id: String, @RequestBody file: MultipartFile): ResponseData<Void> {
+        service.updatePlugin(id, file)
 
-        return ResponseData(HttpStatus.CREATED.value(), "Add plugin successful")
+        return ResponseData(HttpStatus.OK.value(), "Update plugin successful")
     }
 
     @DeleteMapping("/{id}")
@@ -36,13 +43,6 @@ class PluginController {
         service.removePlugin(id)
 
         return ResponseData(HttpStatus.NO_CONTENT.value(), "Delete plugin successful")
-    }
-
-    @PutMapping("/{id}")
-    fun updatePlugin(@PathVariable("id") id: String, @RequestBody file: MultipartFile): ResponseData<Void> {
-        service.updatePlugin(id, file)
-
-        return ResponseData(HttpStatus.OK.value(), "Update plugin successful")
     }
 
     @PatchMapping("/{id}/enable")

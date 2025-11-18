@@ -42,4 +42,9 @@ class ExceptionHandler {
     fun handlePluginAlreadyExistsException(exception: PluginAlreadyExistsException): ResponseData<Void> {
         return ResponseData(HttpStatus.CONFLICT.value(), exception.message)
     }
+
+    @ExceptionHandler
+    fun handleInvalidPluginException(exception: InvalidPluginException): ResponseData<Void> {
+        return ResponseData(HttpStatus.BAD_REQUEST.value(), exception.message)
+    }
 }
