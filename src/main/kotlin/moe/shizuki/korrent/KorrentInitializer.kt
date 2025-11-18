@@ -1,11 +1,8 @@
 package moe.shizuki.korrent
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClientManager
-import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
 import moe.shizuki.korrent.bittorrent.config.BitTorrentConfigManager
-import moe.shizuki.korrent.bittorrent.config.QBittorrentConfig
 import moe.shizuki.korrent.plugin.KorrentPlugin
 import org.pf4j.DefaultPluginManager
 import org.springframework.beans.factory.annotation.Autowired
@@ -51,18 +48,7 @@ class KorrentInitializer {
                 continue
             }
 
-            val jsonTree = jacksonObjectMapper().readTree(File(configFile))
-
-            if (jsonTree.has("qbittorrent")) {
-                val config = configManager.load(configFolder.name, QBittorrentConfig::class.java)
-
-                if (config is QBittorrentConfig) {
-                    val client = QBittorrentClient(config.common.name, config.common.baseUrl)
-
-                    client.login(config.qbittorrent.username, config.qbittorrent.password).execute()
-                    clientManager.add(client)
-                }
-            }
+            configManager.load(configFolder.name)
         }
     }
 
