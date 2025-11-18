@@ -138,7 +138,7 @@ class QBittorrentEventPublisher(
                     }
 
                     if (info?.state != torrent.value.state) {
-                        eventbus.post(QBittorrentTorrentStateChangedEvent(client, info?.state!!, torrent.value.state!!))
+                        eventbus.post(QBittorrentTorrentStateChangedEvent(client, torrent.key, info?.state!!, torrent.value.state!!))
                     }
                 }
 
