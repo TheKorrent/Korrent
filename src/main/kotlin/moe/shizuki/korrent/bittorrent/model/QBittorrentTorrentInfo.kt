@@ -48,7 +48,7 @@ data class QBittorrentTorrentInfo(
     @field:JsonProperty("seen_complete") val seenComplete: Int?,
     @field:JsonProperty("seq_dl") val seqDl: Boolean?,
     @field:JsonProperty("size") val size: Long?,
-    @field:JsonProperty("state") val state: String?,
+    @field:JsonProperty("state") val state: QBittorrentState?,
     @field:JsonProperty("super_seeding") val superSeeding: Boolean?,
     @field:JsonProperty("tags") val tags: String?,
     @field:JsonProperty("time_active") val timeActive: Int?,

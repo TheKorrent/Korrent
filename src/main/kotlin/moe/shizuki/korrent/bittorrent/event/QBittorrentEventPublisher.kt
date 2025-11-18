@@ -2,6 +2,7 @@ package moe.shizuki.korrent.bittorrent.event
 
 import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
+import moe.shizuki.korrent.bittorrent.model.QBittorrentTorrentInfo
 
 class QBittorrentEventPublisher(
     val eventbus: EventBus,
@@ -10,7 +11,7 @@ class QBittorrentEventPublisher(
 
     private val categories = HashSet<String>()
     private val trackers = HashMap<String, HashSet<String>>()
-    private val torrents = HashSet<String>()
+    private val torrents = HashMap<String, QBittorrentTorrentInfo>()
 
     fun polling(client: QBittorrentClient) {
         val syncData = client.getSyncMainData(rid).execute().body() ?: return
@@ -38,7 +39,7 @@ class QBittorrentEventPublisher(
 
             if (syncData.torrents != null && syncData.torrents.isNotEmpty()) {
                 for (torrent in syncData.torrents) {
-                    torrents.add(torrent.key)
+                    torrents[torrent.key] = torrent.value
                 }
             }
 
@@ -116,12 +117,15 @@ class QBittorrentEventPublisher(
 
         if (syncData.torrents != null && syncData.torrents.isNotEmpty()) {
             for (torrent in syncData.torrents) {
-                if (torrents.contains(torrent.key)) {
-                    continue
+                if (!torrents.contains(torrent.key)) {
+                    eventbus.post(QBittorrentTorrentAddedEvent(client, torrent.key))
                 }
 
-                eventbus.post(QBittorrentTorrentAddedEvent(client, torrent.key))
-                torrents.add(torrent.key)
+                if (torrents[torrent.key]?.state != null && torrent.value.state != null && torrent.value.state == torrents[torrent.key]?.state) {
+                    eventbus.post(QBittorrentTorrentStateChangedEvent(client, torrents[torrent.key]?.state!!, torrent.value.state!!))
+                }
+
+                torrents[torrent.key] = torrent.value
             }
         }
 
