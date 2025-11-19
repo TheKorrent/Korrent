@@ -1,5 +1,7 @@
 package moe.shizuki.korrent.bittorrent.client
 
+import com.google.common.eventbus.EventBus
+import moe.shizuki.korrent.bittorrent.event.PluginInitializeEvent
 import moe.shizuki.korrent.bittorrent.task.QBittorrentScheduleTask
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -7,12 +9,17 @@ import org.springframework.stereotype.Component
 @Component
 class BitTorrentClientManager {
     @Autowired
+    private lateinit var eventbus: EventBus
+
+    @Autowired
     private lateinit var qBittorrentScheduleTask: QBittorrentScheduleTask
 
     private val clients: HashMap<String, BitTorrentClient> = HashMap()
 
     fun add(client: BitTorrentClient) {
         clients[client.getClientInfo().name] = client
+
+        eventbus.post(PluginInitializeEvent(client))
 
         if (client is QBittorrentClient) {
             qBittorrentScheduleTask.add(client)

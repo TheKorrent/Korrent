@@ -3,6 +3,7 @@ package moe.shizuki.korrent.bittorrent.client
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import moe.shizuki.korrent.bittorrent.config.PluginConfigManager
 import moe.shizuki.korrent.bittorrent.model.*
 import moe.shizuki.korrent.bittorrent.service.QBittorrentService
 import okhttp3.JavaNetCookieJar
@@ -21,7 +22,7 @@ import java.net.CookiePolicy
 class QBittorrentClient(
     val name: String,
     val baseUrl: String
-): BitTorrentClient {
+): BitTorrentClient() {
     private val service: QBittorrentService
     private val objectMapper: ObjectMapper
 
