@@ -22,7 +22,7 @@ import java.net.CookiePolicy
 class QBittorrentClient(
     val name: String,
     val baseUrl: String
-): BitTorrentClient {
+): BitTorrentClient() {
     private val service: QBittorrentService
     private val objectMapper: ObjectMapper
 
@@ -51,10 +51,6 @@ class QBittorrentClient(
 
     override fun getClientInfo(): BitTorrentClientInfo {
         return BitTorrentClientInfo(BitTorrentClientType.QBITTORRENT, name, baseUrl)
-    }
-
-    override fun getPluginConfigManager(): PluginConfigManager {
-        return PluginConfigManager(this)
     }
 
     fun login(username: String, password: String): Call<Void> {
