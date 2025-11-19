@@ -12,6 +12,10 @@ class PluginConfigManager(
 
         file.parentFile.mkdirs()
 
+        if (file.exists()) {
+            return
+        }
+
         jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValue(file, config)
     }
 
