@@ -3,6 +3,7 @@ package moe.shizuki.korrent.bittorrent.client
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import moe.shizuki.korrent.bittorrent.config.PluginConfigManager
 import moe.shizuki.korrent.bittorrent.model.*
 import moe.shizuki.korrent.bittorrent.service.QBittorrentService
 import okhttp3.JavaNetCookieJar
@@ -50,6 +51,10 @@ class QBittorrentClient(
 
     override fun getClientInfo(): BitTorrentClientInfo {
         return BitTorrentClientInfo(BitTorrentClientType.QBITTORRENT, name, baseUrl)
+    }
+
+    override fun getPluginConfigManager(): PluginConfigManager {
+        return PluginConfigManager(this)
     }
 
     fun login(username: String, password: String): Call<Void> {
