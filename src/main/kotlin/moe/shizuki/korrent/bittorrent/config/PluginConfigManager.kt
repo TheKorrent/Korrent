@@ -1,7 +1,7 @@
 package moe.shizuki.korrent.bittorrent.config
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClient
+import moe.shizuki.korrent.objectMapper
 import java.io.File
 
 class PluginConfigManager(
@@ -16,10 +16,10 @@ class PluginConfigManager(
             return
         }
 
-        jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValue(file, config)
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, config)
     }
 
     fun load(name: String, clazz: Class<*>): Any? {
-        return jacksonObjectMapper().readValue(File("config/${client.getClientInfo().name}/plugins/${name}.json").readText(), clazz)
+        return objectMapper.readValue(File("config/${client.getClientInfo().name}/plugins/${name}.json").readText(), clazz)
     }
 }

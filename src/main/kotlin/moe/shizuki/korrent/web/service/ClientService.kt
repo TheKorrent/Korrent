@@ -1,6 +1,6 @@
 package moe.shizuki.korrent.web.service
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClientManager
 import moe.shizuki.korrent.bittorrent.config.BitTorrentConfigManager
 import moe.shizuki.korrent.bittorrent.model.BitTorrentClientInfo
@@ -17,8 +17,11 @@ class ClientService {
     @Autowired
     private lateinit var configManager: BitTorrentConfigManager
 
+    @Autowired
+    private lateinit var objectMapper: ObjectMapper
+
     fun addClient(client: String) {
-        val name = jacksonObjectMapper().readTree(client).get("common").get("name").asText()
+        val name = objectMapper.readTree(client).get("common").get("name").asText()
 
         if (clientManager.get(name) != null) {
             throw ClientAlreadyExistsException("Client already exists")
@@ -46,7 +49,7 @@ class ClientService {
         configManager.remove(name)
         configManager.add(client)
         clientManager.remove(name)
-        configManager.load(jacksonObjectMapper().readTree(client).get("common").get("name").asText())
+        configManager.load(objectMapper.readTree(client).get("common").get("name").asText())
     }
 
     fun removeClient(clientName: String) {
