@@ -17,6 +17,7 @@ class ClientService {
     @Autowired
     private lateinit var configManager: BitTorrentConfigManager
 
+    @Autowired
     private lateinit var objectMapper: ObjectMapper
 
     fun addClient(client: String) {
