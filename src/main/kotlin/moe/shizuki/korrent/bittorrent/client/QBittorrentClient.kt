@@ -1,11 +1,8 @@
 package moe.shizuki.korrent.bittorrent.client
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import moe.shizuki.korrent.bittorrent.config.PluginConfigManager
 import moe.shizuki.korrent.bittorrent.model.*
 import moe.shizuki.korrent.bittorrent.service.QBittorrentService
+import moe.shizuki.korrent.objectMapper
 import okhttp3.JavaNetCookieJar
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -24,7 +21,6 @@ class QBittorrentClient(
     val baseUrl: String
 ): BitTorrentClient() {
     private val service: QBittorrentService
-    private val objectMapper: ObjectMapper
 
     init {
         val cookieManager = CookieManager().apply {
@@ -34,10 +30,6 @@ class QBittorrentClient(
         val client = OkHttpClient.Builder()
             .cookieJar(JavaNetCookieJar(cookieManager))
             .build()
-
-        this.objectMapper = jacksonObjectMapper().apply {
-            setSerializationInclusion(JsonInclude.Include.NON_NULL)
-        }
 
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)

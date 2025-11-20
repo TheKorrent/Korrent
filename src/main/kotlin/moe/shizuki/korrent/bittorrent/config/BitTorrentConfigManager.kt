@@ -1,7 +1,6 @@
 package moe.shizuki.korrent.bittorrent.config
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClientManager
 import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,12 +9,11 @@ import java.io.File
 
 @Component
 class BitTorrentConfigManager {
-    private val objectMapper = jacksonObjectMapper().apply {
-        setSerializationInclusion(JsonInclude.Include.NON_NULL)
-    }
-
     @Autowired
     private lateinit var clientManager: BitTorrentClientManager
+
+    @Autowired
+    private lateinit var objectMapper: ObjectMapper
 
     fun add(json: String) {
         val name = objectMapper.readTree(json).get("common").get("name").asText()
@@ -56,7 +54,7 @@ class BitTorrentConfigManager {
     }
 
     fun load(name: String) {
-        val jsonTree = jacksonObjectMapper().readTree(File("config/$name/config.json"))
+        val jsonTree = objectMapper.readTree(File("config/$name/config.json"))
 
         if (jsonTree.has("qbittorrent")) {
             val config = get(name, QBittorrentConfig::class.java)
