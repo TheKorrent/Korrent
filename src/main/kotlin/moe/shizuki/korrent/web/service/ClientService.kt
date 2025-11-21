@@ -33,12 +33,12 @@ class ClientService {
 
     fun getClients(): List<BitTorrentClientInfo> {
         return clientManager.list().map { client ->
-            client.getClientInfo()
+            client.clientInfo
         }
     }
 
     fun getClient(clientName: String): BitTorrentClientInfo {
-        return clientManager.get(clientName)?.getClientInfo() ?: throw ClientNotFoundException("Client not found")
+        return clientManager.get(clientName)?.clientInfo ?: throw ClientNotFoundException("Client not found")
     }
 
     fun updateClient(name: String, client: String) {

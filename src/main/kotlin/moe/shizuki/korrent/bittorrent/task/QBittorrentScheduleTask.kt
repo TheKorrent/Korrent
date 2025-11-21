@@ -22,7 +22,7 @@ class QBittorrentScheduleTask {
     fun add(client: QBittorrentClient) {
         val publisher = QBittorrentEventPublisher(eventbus)
 
-        tasks[client.getClientInfo().name] = taskScheduler.schedule(
+        tasks[client.clientInfo.name] = taskScheduler.schedule(
             {
                 publisher.polling(client)
             },

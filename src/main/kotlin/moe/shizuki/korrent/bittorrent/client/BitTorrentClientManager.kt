@@ -17,7 +17,7 @@ class BitTorrentClientManager {
     private val clients: HashMap<String, BitTorrentClient> = HashMap()
 
     fun add(client: BitTorrentClient) {
-        clients[client.getClientInfo().name] = client
+        clients[client.clientInfo.name] = client
 
         eventbus.post(PluginInitializeEvent(client))
 
@@ -35,7 +35,7 @@ class BitTorrentClientManager {
     }
 
     fun remove(client: BitTorrentClient) {
-        remove(client.getClientInfo().name)
+        remove(client.clientInfo.name)
     }
 
     fun get(clientName: String): BitTorrentClient? {

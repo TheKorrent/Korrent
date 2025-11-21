@@ -18,9 +18,12 @@ import java.net.CookiePolicy
 
 class QBittorrentClient(
     val name: String,
-    val baseUrl: String
+    val baseUrl: String,
+
 ): BitTorrentClient() {
     private val service: QBittorrentService
+
+    override val clientInfo = BitTorrentClientInfo(BitTorrentClientType.QBITTORRENT, name, baseUrl)
 
     init {
         val cookieManager = CookieManager().apply {
@@ -39,10 +42,6 @@ class QBittorrentClient(
             .build()
 
         this.service = retrofit.create(QBittorrentService::class.java)
-    }
-
-    override fun getClientInfo(): BitTorrentClientInfo {
-        return BitTorrentClientInfo(BitTorrentClientType.QBITTORRENT, name, baseUrl)
     }
 
     fun login(username: String, password: String): Call<Void> {
