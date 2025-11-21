@@ -9,7 +9,5 @@ abstract class BitTorrentClient {
 
     val pluginConfigManager: PluginConfigManager = PluginConfigManager()
 
-    val pluginDataFolder by lazy {
-        PluginDataManager(this).folder
-    }
+    val pluginDataManager = PluginDataManager()
 }

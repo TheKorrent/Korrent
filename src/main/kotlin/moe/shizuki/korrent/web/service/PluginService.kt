@@ -1,5 +1,7 @@
 package moe.shizuki.korrent.web.service
 
+import moe.shizuki.korrent.cacheFolder
+import moe.shizuki.korrent.pluginFolder
 import moe.shizuki.korrent.web.exception.InvalidPluginException
 import moe.shizuki.korrent.web.exception.PluginAlreadyExistsException
 import moe.shizuki.korrent.web.exception.PluginNotFoundException
@@ -17,7 +19,7 @@ class PluginService {
     lateinit var pluginManager: DefaultPluginManager
 
     fun addPlugin(file: MultipartFile) {
-        val temp = File("data/cache/${file.originalFilename}.temp")
+        val temp = File(cacheFolder, "${file.originalFilename}.temp")
 
         temp.parentFile.mkdirs()
         file.transferTo(File(temp.absolutePath))
@@ -30,7 +32,7 @@ class PluginService {
             throw InvalidPluginException("Plugin cannot be parsed")
         }
 
-        val plugin = File("plugins/${id}.jar")
+        val plugin = File(pluginFolder, "${id}.jar")
 
         if (plugin.exists()) {
             throw PluginAlreadyExistsException("Plugin already exists")

@@ -2,11 +2,11 @@ package moe.shizuki.korrent.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.eventbus.EventBus
+import moe.shizuki.korrent.korrentConfigFile
 import moe.shizuki.korrent.objectMapper
 import org.pf4j.DefaultPluginManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import java.io.File
 
 @Configuration
 class BeanConfig {
@@ -27,14 +27,12 @@ class BeanConfig {
 
     @Bean
     fun korrentConfig(): KorrentConfig {
-        val configFile = File("config/korrent.json")
+        if (!korrentConfigFile.exists()) {
+            korrentConfigFile.parentFile.mkdirs()
 
-        if (!configFile.exists()) {
-            configFile.parentFile.mkdirs()
-
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(configFile, KorrentConfig())
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(korrentConfigFile, KorrentConfig())
         }
 
-        return objectMapper.readValue(configFile.readText(), KorrentConfig::class.java)
+        return objectMapper.readValue(korrentConfigFile.readText(), KorrentConfig::class.java)
     }
 }
