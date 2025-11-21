@@ -7,7 +7,7 @@ import moe.shizuki.korrent.bittorrent.model.BitTorrentClientInfo
 abstract class BitTorrentClient {
     abstract val clientInfo: BitTorrentClientInfo
 
-    val pluginConfigManager: PluginConfigManager = PluginConfigManager(this)
+    val pluginConfigManager: PluginConfigManager = PluginConfigManager()
 
     val pluginDataFolder by lazy {
         PluginDataManager(this).folder

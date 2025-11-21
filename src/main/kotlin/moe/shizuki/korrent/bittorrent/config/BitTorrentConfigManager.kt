@@ -16,9 +16,7 @@ class BitTorrentConfigManager {
     private lateinit var objectMapper: ObjectMapper
 
     fun add(json: String) {
-        val name = objectMapper.readTree(json).get("common").get("name").asText()
-
-        val file = File("config/$name/config.json")
+        val file = File("config/client.json")
 
         if(file.exists()) {
             return
@@ -29,35 +27,21 @@ class BitTorrentConfigManager {
         file.writeText(json)
     }
 
-    fun add(name: String, config: Any) {
-        val file = File("config/$name/config.json")
-
-        if(file.exists()) {
-            return
-        }
-
-        file.parentFile.mkdirs()
-        file.createNewFile()
-
-        objectMapper.writeValue(file, config)
-    }
-
-    fun remove(name: String) {
-        val file = File("config/$name/config.json")
+    fun remove() {
+        val file = File("config/client.json")
 
         file.delete()
-        file.parentFile.delete()
     }
 
-    fun get(name: String, clazz: Class<*>): Any? {
-        return objectMapper.readValue(File("config/$name/config.json"), clazz)
+    fun get(clazz: Class<*>): Any? {
+        return objectMapper.readValue(File("config/client.json"), clazz)
     }
 
-    fun load(name: String) {
-        val jsonTree = objectMapper.readTree(File("config/$name/config.json"))
+    fun load() {
+        val jsonTree = objectMapper.readTree(File("config/client.json"))
 
         if (jsonTree.has("qbittorrent")) {
-            val config = get(name, QBittorrentConfig::class.java)
+            val config = get(QBittorrentConfig::class.java)
 
             if (config is QBittorrentConfig) {
                 val client = QBittorrentClient(config.common.name, config.common.baseUrl)
