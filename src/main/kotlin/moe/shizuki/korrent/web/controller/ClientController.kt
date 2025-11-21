@@ -28,7 +28,7 @@ class ClientController {
 
     @GetMapping
     fun getClient(): ResponseData<BitTorrentClientInfo> {
-        return ResponseData(HttpStatus.OK.value(), "Get clients successful", service.getClient())
+        return ResponseData(HttpStatus.OK.value(), "Get client successful", service.getClient())
     }
 
     @PutMapping
