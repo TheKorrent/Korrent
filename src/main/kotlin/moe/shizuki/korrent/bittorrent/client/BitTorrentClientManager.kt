@@ -17,7 +17,7 @@ class BitTorrentClientManager {
     private val clients: HashMap<String, BitTorrentClient> = HashMap()
 
     fun add(client: BitTorrentClient) {
-        clients[client.clientInfo.name] = client
+        clients["client"] = client
 
         eventbus.post(PluginInitializeEvent(client))
 
@@ -26,23 +26,15 @@ class BitTorrentClientManager {
         }
     }
 
-    fun remove(clientName: String) {
-        val client = clients.remove(clientName) ?: return
+    fun remove() {
+        val client = clients.remove("client") ?: return
 
         if (client is QBittorrentClient) {
-            qBittorrentScheduleTask.remove(clientName)
+            qBittorrentScheduleTask.remove("client")
         }
     }
 
-    fun remove(client: BitTorrentClient) {
-        remove(client.clientInfo.name)
-    }
-
-    fun get(clientName: String): BitTorrentClient? {
-        return clients[clientName]
-    }
-
-    fun list(): List<BitTorrentClient> {
-        return clients.values.toList()
+    fun get(): BitTorrentClient? {
+        return clients["client"]
     }
 }

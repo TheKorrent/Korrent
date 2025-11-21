@@ -1,7 +1,6 @@
 package moe.shizuki.korrent
 
 import com.google.common.eventbus.EventBus
-import moe.shizuki.korrent.bittorrent.client.BitTorrentClientManager
 import moe.shizuki.korrent.bittorrent.config.BitTorrentConfigManager
 import moe.shizuki.korrent.plugin.KorrentPlugin
 import org.pf4j.DefaultPluginManager
@@ -15,9 +14,6 @@ class KorrentInitializer {
     private lateinit var configManager: BitTorrentConfigManager
 
     @Autowired
-    private lateinit var clientManager: BitTorrentClientManager
-
-    @Autowired
     private lateinit var pluginManager: DefaultPluginManager
 
     @Autowired
@@ -29,27 +25,7 @@ class KorrentInitializer {
     }
 
     fun initBitTorrents() {
-        val configRoot = File("config/")
-
-        if (!configRoot.exists()) {
-            configRoot.mkdirs()
-        }
-
-        val configFolders = configRoot.listFiles() ?: return
-
-        for (configFolder in configFolders) {
-            if (!configFolder.isDirectory) {
-                continue
-            }
-
-            val configFile = configFolder.path + "/config.json"
-
-            if (!File(configFile).exists()) {
-                continue
-            }
-
-            configManager.load(configFolder.name)
-        }
+        configManager.load()
     }
 
     fun initPlugins() {

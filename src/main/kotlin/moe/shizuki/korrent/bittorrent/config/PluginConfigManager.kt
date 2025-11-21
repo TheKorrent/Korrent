@@ -1,14 +1,12 @@
 package moe.shizuki.korrent.bittorrent.config
 
-import moe.shizuki.korrent.bittorrent.client.BitTorrentClient
 import moe.shizuki.korrent.objectMapper
 import java.io.File
 
 class PluginConfigManager(
-    private val client: BitTorrentClient
 ) {
     fun register(name: String, config: PluginConfig) {
-        val file = File("config/${client.clientInfo.name}/plugins/${name}.json")
+        val file = File("config/plugins/${name}.json")
 
         file.parentFile.mkdirs()
 
@@ -20,6 +18,6 @@ class PluginConfigManager(
     }
 
     fun load(name: String, clazz: Class<*>): Any? {
-        return objectMapper.readValue(File("config/${client.clientInfo.name}/plugins/${name}.json").readText(), clazz)
+        return objectMapper.readValue(File("config/plugins/${name}.json").readText(), clazz)
     }
 }

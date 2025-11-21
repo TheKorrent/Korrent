@@ -1,6 +1,5 @@
 package moe.shizuki.korrent.web.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClientManager
 import moe.shizuki.korrent.bittorrent.config.BitTorrentConfigManager
 import moe.shizuki.korrent.bittorrent.model.BitTorrentClientInfo
@@ -17,47 +16,36 @@ class ClientService {
     @Autowired
     private lateinit var configManager: BitTorrentConfigManager
 
-    @Autowired
-    private lateinit var objectMapper: ObjectMapper
-
     fun addClient(client: String) {
-        val name = objectMapper.readTree(client).get("common").get("name").asText()
-
-        if (clientManager.get(name) != null) {
+        if (clientManager.get() != null) {
             throw ClientAlreadyExistsException("Client already exists")
         }
 
         configManager.add(client)
-        configManager.load(name)
+        configManager.load()
     }
 
-    fun getClients(): List<BitTorrentClientInfo> {
-        return clientManager.list().map { client ->
-            client.clientInfo
-        }
+    fun getClient(): BitTorrentClientInfo {
+        return clientManager.get()?.clientInfo ?: throw ClientNotFoundException("Client not found")
     }
 
-    fun getClient(clientName: String): BitTorrentClientInfo {
-        return clientManager.get(clientName)?.clientInfo ?: throw ClientNotFoundException("Client not found")
-    }
-
-    fun updateClient(name: String, client: String) {
-        if (clientManager.get(name) == null) {
+    fun updateClient(client: String) {
+        if (clientManager.get() == null) {
             throw ClientNotFoundException("Client not found")
         }
 
-        configManager.remove(name)
+        clientManager.remove()
+        configManager.remove()
         configManager.add(client)
-        clientManager.remove(name)
-        configManager.load(objectMapper.readTree(client).get("common").get("name").asText())
+        configManager.load()
     }
 
-    fun removeClient(clientName: String) {
-        if (clientManager.get(clientName) == null) {
+    fun removeClient() {
+        if (clientManager.get() == null) {
             throw ClientNotFoundException("Client not found")
         }
 
-        clientManager.remove(clientName)
-        configManager.remove(clientName)
+        clientManager.remove()
+        configManager.remove()
     }
 }
