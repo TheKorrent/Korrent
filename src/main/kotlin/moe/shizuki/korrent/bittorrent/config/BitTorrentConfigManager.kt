@@ -31,7 +31,6 @@ class BitTorrentConfigManager {
         val file = File("config/client.json")
 
         file.delete()
-        file.parentFile.delete()
     }
 
     fun get(clazz: Class<*>): Any? {
