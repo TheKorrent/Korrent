@@ -7,6 +7,6 @@ class PluginDataManager(
     private val client: BitTorrentClient
 ) {
     val folder: File by lazy {
-        File("data/plugins/${client.getClientInfo().name}/")
+        File("data/plugins/${client.clientInfo.name}/")
     }
 }
