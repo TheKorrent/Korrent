@@ -3,6 +3,7 @@ package moe.shizuki.korrent.bittorrent.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClientManager
 import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
+import moe.shizuki.korrent.clientConfigFile
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.io.File
@@ -16,29 +17,25 @@ class BitTorrentConfigManager {
     private lateinit var objectMapper: ObjectMapper
 
     fun add(json: String) {
-        val file = File("config/client.json")
-
-        if(file.exists()) {
+        if(clientConfigFile.exists()) {
             return
         }
 
-        file.parentFile.mkdirs()
-        file.createNewFile()
-        file.writeText(json)
+        clientConfigFile.parentFile.mkdirs()
+        clientConfigFile.createNewFile()
+        clientConfigFile.writeText(json)
     }
 
     fun remove() {
-        val file = File("config/client.json")
-
-        file.delete()
+        clientConfigFile.delete()
     }
 
     fun get(clazz: Class<*>): Any? {
-        return objectMapper.readValue(File("config/client.json"), clazz)
+        return objectMapper.readValue(clientConfigFile, clazz)
     }
 
     fun load() {
-        val jsonTree = objectMapper.readTree(File("config/client.json"))
+        val jsonTree = objectMapper.readTree(clientConfigFile)
 
         if (jsonTree.has("qbittorrent")) {
             val config = get(QBittorrentConfig::class.java)
