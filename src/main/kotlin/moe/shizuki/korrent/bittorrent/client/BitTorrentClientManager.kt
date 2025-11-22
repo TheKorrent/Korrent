@@ -34,6 +34,7 @@ class BitTorrentClientManager {
 
     fun remove() {
         val client = clients.remove("client") ?: return
+        scheduleEventManager.cleanup()
 
         if (client is QBittorrentClient) {
             qBittorrentScheduleTask.remove("client")

@@ -19,6 +19,11 @@ class ScheduleEventManager {
         this.eventbus = eventbus
     }
 
+    fun cleanup() {
+        tasks.values.forEach { it?.cancel(false) }
+        tasks.clear()
+    }
+
     fun register(cron: String, event: ScheduleEvent) {
         if (client == null || taskScheduler == null || eventbus == null) {
             return
