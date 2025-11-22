@@ -2,11 +2,14 @@ package moe.shizuki.korrent
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import moe.shizuki.korrent.bittorrent.event.ScheduleEventManager
 import java.io.File
 
 val objectMapper = jacksonObjectMapper().apply {
     setSerializationInclusion(JsonInclude.Include.NON_NULL)
 }
+
+val scheduleEventManager = ScheduleEventManager()
 
 val pluginFolder = File("plugins/")
 val pluginDataFolder = File("data/")
