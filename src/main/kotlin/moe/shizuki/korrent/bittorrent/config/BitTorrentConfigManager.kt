@@ -40,7 +40,7 @@ class BitTorrentConfigManager {
             val config = get(QBittorrentConfig::class.java)
 
             if (config is QBittorrentConfig) {
-                val client = QBittorrentClient(config.common.name, config.common.baseUrl)
+                val client = QBittorrentClient(config)
 
                 client.login(config.qbittorrent.username, config.qbittorrent.password).execute()
                 clientManager.add(client)
