@@ -6,7 +6,6 @@ import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
 import moe.shizuki.korrent.clientConfigFile
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.io.File
 
 @Component
 class BitTorrentConfigManager {
