@@ -4,6 +4,8 @@ data class BitTorrentCommonConfig(
     val name: String,
     val baseUrl: String,
     val polling: Polling
-) class Polling(
-    val schedule: String
-)
+) {
+    class Polling(
+        val schedule: String
+    )
+}
