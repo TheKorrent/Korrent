@@ -1,4 +1,4 @@
-package moe.shizuki.korrent.bittorrent.config
+package moe.shizuki.korrent.plugin.config
 
 import moe.shizuki.korrent.objectMapper
 import moe.shizuki.korrent.pluginConfigFolder
