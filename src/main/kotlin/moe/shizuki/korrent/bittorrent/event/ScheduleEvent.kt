@@ -8,7 +8,7 @@ open class ScheduleEvent {
     val client: BitTorrentClient
         get() = _client ?: throw IllegalStateException("Event not initialized")
 
-    fun init(client: BitTorrentClient) {
+    internal fun init(client: BitTorrentClient) {
         if (this._client == null) {
             this._client = client
         }

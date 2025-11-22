@@ -13,13 +13,13 @@ class ScheduleEventManager {
     private var taskScheduler: TaskScheduler? = null
     private var eventbus: EventBus? = null
 
-    fun init(client: BitTorrentClient, taskScheduler: TaskScheduler, eventbus: EventBus) {
+    internal fun init(client: BitTorrentClient, taskScheduler: TaskScheduler, eventbus: EventBus) {
         this.client = client
         this.taskScheduler = taskScheduler
         this.eventbus = eventbus
     }
 
-    fun cleanup() {
+    internal fun cleanup() {
         tasks.values.forEach { it?.cancel(false) }
         tasks.clear()
     }
