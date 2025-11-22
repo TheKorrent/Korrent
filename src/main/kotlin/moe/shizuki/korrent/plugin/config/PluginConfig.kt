@@ -1,4 +1,4 @@
-package moe.shizuki.korrent.bittorrent.config
+package moe.shizuki.korrent.plugin.config
 
 open class PluginConfig(
     open val common: PluginCommonConfig

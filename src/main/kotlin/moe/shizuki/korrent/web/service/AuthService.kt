@@ -1,7 +1,7 @@
 package moe.shizuki.korrent.web.service
 
 import cn.dev33.satoken.stp.StpUtil
-import moe.shizuki.korrent.config.KorrentConfig
+import moe.shizuki.korrent.model.KorrentConfig
 import moe.shizuki.korrent.web.exception.InvalidUsernamePasswordException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

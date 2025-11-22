@@ -3,6 +3,7 @@ package moe.shizuki.korrent.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.korrentConfigFile
+import moe.shizuki.korrent.model.KorrentConfig
 import moe.shizuki.korrent.objectMapper
 import org.pf4j.DefaultPluginManager
 import org.springframework.context.annotation.Bean

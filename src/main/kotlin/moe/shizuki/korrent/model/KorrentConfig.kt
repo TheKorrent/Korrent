@@ -1,4 +1,4 @@
-package moe.shizuki.korrent.config
+package moe.shizuki.korrent.model
 
 data class KorrentConfig(
     val web: Web = Web()

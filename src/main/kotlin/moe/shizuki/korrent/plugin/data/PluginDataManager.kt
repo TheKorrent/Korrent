@@ -1,4 +1,4 @@
-package moe.shizuki.korrent.bittorrent.data
+package moe.shizuki.korrent.plugin.data
 
 import moe.shizuki.korrent.pluginDataFolder
 import java.io.File
