@@ -2,13 +2,15 @@ package moe.shizuki.korrent.bittorrent.event
 
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClient
 
-open class ScheduleEvent(
-) {
-    var client: BitTorrentClient? = null
+open class ScheduleEvent {
+    private var _client: BitTorrentClient? = null
+
+    val client: BitTorrentClient
+        get() = _client ?: throw IllegalStateException("Event not initialized")
 
     fun init(client: BitTorrentClient) {
-        if (this.client == null) {
-            this.client = client
+        if (this._client == null) {
+            this._client = client
         }
     }
 }
