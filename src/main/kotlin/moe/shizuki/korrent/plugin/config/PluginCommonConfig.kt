@@ -1,3 +1,9 @@
 package moe.shizuki.korrent.plugin.config
 
-class PluginCommonConfig
+class PluginCommonConfig(
+    val schedule: Schedule
+) {
+    class Schedule(
+        val cron: String
+    )
+}
