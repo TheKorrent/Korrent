@@ -14,10 +14,12 @@ val pluginConfigManager = PluginConfigManager()
 val scheduleEventManager = ScheduleEventManager()
 
 val pluginFolder = File("plugins/")
-val pluginDataFolder = File("data/")
+val dataFolder = File("data/")
 val cacheFolder = File("cache/")
 val configFolder = File("config/")
 
+val pluginDataFolder = File(dataFolder, "plugins/")
+val pluginConfigFolder = File(configFolder, "plugins/")
 val korrentConfigFile = File(configFolder, "korrent.json")
 val clientConfigFile = File(configFolder, "client.json")
-val pluginConfigFolder = File(configFolder, "plugins/")
+
