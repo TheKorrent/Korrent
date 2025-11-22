@@ -1,5 +1,6 @@
 package moe.shizuki.korrent.bittorrent.client
 
+import moe.shizuki.korrent.bittorrent.config.QBittorrentConfig
 import moe.shizuki.korrent.bittorrent.model.*
 import moe.shizuki.korrent.bittorrent.service.QBittorrentService
 import moe.shizuki.korrent.objectMapper
@@ -17,13 +18,12 @@ import java.net.CookieManager
 import java.net.CookiePolicy
 
 class QBittorrentClient(
-    val name: String,
-    val baseUrl: String,
-
+    val config: QBittorrentConfig
 ): BitTorrentClient() {
     private val service: QBittorrentService
 
-    override val clientInfo = BitTorrentClientInfo(BitTorrentClientType.QBITTORRENT, name, baseUrl)
+    override val clientType = BitTorrentClientType.QBITTORRENT
+    override val clientConfig = config
 
     init {
         val cookieManager = CookieManager().apply {
@@ -35,7 +35,7 @@ class QBittorrentClient(
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(config.common.baseUrl)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(JacksonConverterFactory.create(objectMapper))
             .client(client)

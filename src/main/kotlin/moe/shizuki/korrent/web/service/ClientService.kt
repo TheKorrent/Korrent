@@ -1,8 +1,8 @@
 package moe.shizuki.korrent.web.service
 
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClientManager
+import moe.shizuki.korrent.bittorrent.config.BitTorrentConfig
 import moe.shizuki.korrent.bittorrent.config.BitTorrentConfigManager
-import moe.shizuki.korrent.bittorrent.model.BitTorrentClientInfo
 import moe.shizuki.korrent.web.exception.ClientAlreadyExistsException
 import moe.shizuki.korrent.web.exception.ClientNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,8 +25,8 @@ class ClientService {
         configManager.load()
     }
 
-    fun getClient(): BitTorrentClientInfo {
-        return clientManager.get()?.clientInfo ?: throw ClientNotFoundException("Client not found")
+    fun getClient(): BitTorrentConfig {
+        return clientManager.get()?.clientConfig ?: throw ClientNotFoundException("Client not found")
     }
 
     fun updateClient(client: String) {

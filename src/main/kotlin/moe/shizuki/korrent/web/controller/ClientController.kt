@@ -1,6 +1,6 @@
 package moe.shizuki.korrent.web.controller
 
-import moe.shizuki.korrent.bittorrent.model.BitTorrentClientInfo
+import moe.shizuki.korrent.bittorrent.config.BitTorrentConfig
 import moe.shizuki.korrent.web.model.ResponseData
 import moe.shizuki.korrent.web.service.ClientService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,7 +21,7 @@ class ClientController {
     }
 
     @GetMapping
-    fun getClient(): ResponseData<BitTorrentClientInfo> {
+    fun getClient(): ResponseData<BitTorrentConfig> {
         return ResponseData(HttpStatus.OK.value(), "Get client successful", service.getClient())
     }
 

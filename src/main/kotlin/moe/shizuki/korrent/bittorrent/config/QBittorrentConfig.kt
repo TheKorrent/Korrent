@@ -1,10 +1,10 @@
 package moe.shizuki.korrent.bittorrent.config
 
-data class QBittorrentConfig(
-    val common: BitTorrentCommonConfig,
-    val qbittorrent: Config
-) {
-    data class Config(
+class QBittorrentConfig(
+    override val common: BitTorrentCommonConfig,
+    val qbittorrent: QBittorrent
+): BitTorrentConfig(common) {
+    data class QBittorrent(
         val username: String,
         val password: String
     )
