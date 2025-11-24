@@ -1,8 +1,8 @@
 package moe.shizuki.korrent.web.controller
 
+import moe.shizuki.korrent.plugin.model.PluginInfo
 import moe.shizuki.korrent.web.model.ResponseData
 import moe.shizuki.korrent.web.service.PluginService
-import org.pf4j.PluginDescriptor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -22,12 +22,12 @@ class PluginController {
     }
 
     @GetMapping
-    fun getPlugins(): ResponseData<List<PluginDescriptor>> {
+    fun getPlugins(): ResponseData<List<PluginInfo>> {
         return ResponseData(HttpStatus.OK.value(), "Get plugins successful", service.getPlugins())
     }
 
     @GetMapping("/{id}")
-    fun getPlugin(@PathVariable("id") id: String): ResponseData<PluginDescriptor> {
+    fun getPlugin(@PathVariable("id") id: String): ResponseData<PluginInfo> {
         return ResponseData(HttpStatus.OK.value(), "Get plugin successful", service.getPlugin(id))
     }
 
