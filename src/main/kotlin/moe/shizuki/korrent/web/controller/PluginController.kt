@@ -60,7 +60,7 @@ class PluginController {
     }
 
     @GetMapping("/{id}/config")
-    fun getPluginConfig(@PathVariable id: String): ResponseData<String> {
+    fun getPluginConfig(@PathVariable("id") id: String): ResponseData<String> {
         return ResponseData(HttpStatus.OK.value(), "Get plugin config successful", service.getPluginConfig(id))
     }
 
