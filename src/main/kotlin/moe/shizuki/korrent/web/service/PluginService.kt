@@ -1,12 +1,12 @@
 package moe.shizuki.korrent.web.service
 
 import moe.shizuki.korrent.cacheFolder
+import moe.shizuki.korrent.plugin.model.PluginInfo
 import moe.shizuki.korrent.pluginFolder
 import moe.shizuki.korrent.web.exception.InvalidPluginException
 import moe.shizuki.korrent.web.exception.PluginAlreadyExistsException
 import moe.shizuki.korrent.web.exception.PluginNotFoundException
 import org.pf4j.DefaultPluginManager
-import org.pf4j.PluginDescriptor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
@@ -42,14 +42,32 @@ class PluginService {
         pluginManager.loadPlugin(plugin.toPath())
     }
 
-    fun getPlugins(): List<PluginDescriptor> {
+    fun getPlugins(): List<PluginInfo> {
         return pluginManager.plugins.toList().map { plugin ->
-            plugin.descriptor
+            PluginInfo(
+                plugin.descriptor.pluginId,
+                plugin.descriptor.version,
+                plugin.descriptor.provider,
+                plugin.descriptor.pluginDescription,
+                plugin.descriptor.license,
+                plugin.descriptor.dependencies,
+                plugin.pluginState
+            )
         }
     }
 
-    fun getPlugin(id: String): PluginDescriptor {
-        return (pluginManager.getPlugin(id) ?: throw PluginNotFoundException("Plugin not found")).descriptor
+    fun getPlugin(id: String): PluginInfo {
+        val plugin = pluginManager.getPlugin(id) ?: throw PluginNotFoundException("Plugin not found")
+
+        return PluginInfo(
+            plugin.descriptor.pluginId,
+            plugin.descriptor.version,
+            plugin.descriptor.provider,
+            plugin.descriptor.pluginDescription,
+            plugin.descriptor.license,
+            plugin.descriptor.dependencies,
+            plugin.pluginState
+        )
     }
 
     fun updatePlugin(id: String, file: MultipartFile) {
