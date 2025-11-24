@@ -66,6 +66,8 @@ class PluginController {
 
     @PutMapping("/{id}/config")
     fun updatePluginConfig(@PathVariable("id") id: String, @RequestBody config: String): ResponseData<Void> {
+        service.updatePluginConfig(id, config)
+
         return ResponseData(HttpStatus.OK.value(), "Update plugin config successful")
     }
 }
