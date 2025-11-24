@@ -58,4 +58,14 @@ class PluginController {
 
         return ResponseData(HttpStatus.NO_CONTENT.value(), "Disable plugin successful")
     }
+
+    @GetMapping("/{id}/config")
+    fun getPluginConfig(@PathVariable id: String): ResponseData<String> {
+        return ResponseData(HttpStatus.OK.value(), "Get plugin config successful", service.getPluginConfig(id))
+    }
+
+    @PutMapping("/{id}/config")
+    fun updatePluginConfig(@PathVariable("id") id: String, @RequestBody config: String): ResponseData<Void> {
+        return ResponseData(HttpStatus.OK.value(), "Update plugin config successful")
+    }
 }

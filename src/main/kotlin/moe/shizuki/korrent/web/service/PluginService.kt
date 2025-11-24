@@ -2,6 +2,7 @@ package moe.shizuki.korrent.web.service
 
 import moe.shizuki.korrent.cacheFolder
 import moe.shizuki.korrent.plugin.model.PluginInfo
+import moe.shizuki.korrent.pluginConfigFolder
 import moe.shizuki.korrent.pluginFolder
 import moe.shizuki.korrent.web.exception.InvalidPluginException
 import moe.shizuki.korrent.web.exception.PluginAlreadyExistsException
@@ -94,5 +95,29 @@ class PluginService {
         }
 
         pluginManager.disablePlugin(id)
+    }
+
+    fun getPluginConfig(id: String): String {
+        val plugin = pluginManager.getPlugin(id) ?: throw PluginNotFoundException("Plugin not found")
+
+        val configFile = File(pluginConfigFolder, "${id}.json")
+
+        if (!configFile.exists()) {
+            throw PluginNotFoundException("Plugin config not found")
+        }
+
+        return configFile.readText()
+    }
+
+    fun updatePluginConfig(id: String, config: String) {
+        val plugin = pluginManager.getPlugin(id) ?: throw PluginNotFoundException("Plugin not found")
+
+        val configFile = File(pluginConfigFolder, "${id}.json")
+
+        if (!configFile.exists()) {
+            throw PluginNotFoundException("Plugin config not found")
+        }
+
+        configFile.writeText(config)
     }
 }
