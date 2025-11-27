@@ -79,7 +79,7 @@
 
   async function handleEdit () {
     await getPluginConfig()
-    if (config) {
+    if (config.value) {
       isActive.value = true
     }
   }
