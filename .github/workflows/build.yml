@@ -28,11 +28,11 @@ jobs:
         working-directory: webui/
 
       - name: Type check
-        run: vue-tsc --build --force
+        run: ./node_modules/.bin/vue-tsc --build --force
         working-directory: webui/
 
       - name: Build
-        run: vite build
+        run: ./node_modules/.bin/vite build
         working-directory: webui/
 
       - name: Move dist to resource
