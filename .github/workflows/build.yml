@@ -4,42 +4,18 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build-full:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
+      - name: Build Frontend
+        uses: ./.github/actions/build-frontend
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: 'pnpm'
-          cache-dependency-path: webui/pnpm-lock.yaml
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: webui/
-
-      - name: Type check
-        run: ./node_modules/.bin/vue-tsc --build --force
-        working-directory: webui/
-
-      - name: Build
-        run: ./node_modules/.bin/vite build
-        working-directory: webui/
-
-      - name: Create folder
-        run: mkdir -p src/main/resources/static/
-
-      - name: Move dist to resource
-        run: mv webui/dist/* src/main/resources/static/
+      - name: Merge
+        uses: ./.github/actions/build-merge
 
       - name: Setup Java
         uses: actions/setup-java@v5
@@ -55,16 +31,27 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: korrent-full
-          path: target/*.jar
+          path: target/korrent.jar
 
-      - name: Clean
-        run: rm -rf src/main/resources/static/
+  build-lite:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+          cache: 'maven'
 
       - name: Build lite
-        run: mvn clean package -D spring-boot.repackage.skip=true
+        run: mvn clean package -Dspring-boot.repackage.skip=true
 
       - name: Upload lite
         uses: actions/upload-artifact@v5
         with:
           name: korrent-lite
-          path: target/*.jar
+          path: target/korrent.jar

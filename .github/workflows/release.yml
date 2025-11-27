@@ -14,35 +14,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
+      - name: Build Frontend
+        uses: ./.github/actions/build-frontend
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: 'pnpm'
-          cache-dependency-path: webui/pnpm-lock.yaml
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: webui/
-
-      - name: Type check
-        run: ./node_modules/.bin/vue-tsc --build --force
-        working-directory: webui/
-
-      - name: Build
-        run: ./node_modules/.bin/vite build
-        working-directory: webui/
-
-      - name: Create folder
-        run: mkdir -p src/main/resources/static/
-
-      - name: Move dist to resource
-        run: mv webui/dist/* src/main/resources/static/
+      - name: Merge
+        uses: ./.github/actions/build-merge
 
       - name: Setup Java
         uses: actions/setup-java@v5
@@ -52,12 +28,7 @@ jobs:
           cache: 'maven'
 
       - name: Build
-        run: mvn clean package
-
-      - name: Clean
-        run: |
-          rm -f target/*-javadoc.jar
-          rm -f target/*-sources.jar
+        run: mvn clean package -Dmaven.test.skip=true
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -66,7 +37,7 @@ jobs:
           tag_name: ${{ github.event.inputs.version }}
           make_latest: true
           files: |
-            target/*.jar
+            target/korrent.jar
 
     permissions:
       contents: write
@@ -85,36 +56,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: 'pnpm'
-          cache-dependency-path: webui/pnpm-lock.yaml
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: webui/
-
-      - name: Type check
-        run: ./node_modules/.bin/vue-tsc --build --force
-        working-directory: webui/
-
-      - name: Build
-        run: ./node_modules/.bin/vite build
-        working-directory: webui/
-
-      - name: Create folder
-        run: mkdir -p src/main/resources/static/
-
-      - name: Move dist to resource
-        run: mv webui/dist/* src/main/resources/static/
-
       - name: Setup Java for Maven Central
         uses: actions/setup-java@v5
         with:
@@ -128,7 +69,7 @@ jobs:
           gpg-passphrase: GPG_PASSPHRASE
 
       - name: Publish to Maven Central
-        run: mvn deploy -D spring-boot.repackage.skip=true
+        run: mvn clean deploy -Dspring-boot.repackage.skip=true -Dmaven.test.skip=true
         env:
           SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
           SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
@@ -147,35 +88,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
+      - name: Build Frontend
+        uses: ./.github/actions/build-frontend
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: 'pnpm'
-          cache-dependency-path: webui/pnpm-lock.yaml
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: webui/
-
-      - name: Type check
-        run: ./node_modules/.bin/vue-tsc --build --force
-        working-directory: webui/
-
-      - name: Build
-        run: ./node_modules/.bin/vite build
-        working-directory: webui/
-
-      - name: Create folder
-        run: mkdir -p src/main/resources/static/
-
-      - name: Move dist to resource
-        run: mv webui/dist/* src/main/resources/static/
+      - name: Merge
+        uses: ./.github/actions/build-merge
 
       - name: Setup Java for GitHub Packages
         uses: actions/setup-java@v5
@@ -185,7 +102,7 @@ jobs:
           cache: 'maven'
 
       - name: Build
-        run: mvn package
+        run: mvn clean package -Dmaven.test.skip=true
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
