@@ -4,6 +4,7 @@ import moe.shizuki.korrent.web.model.ResponseData
 import moe.shizuki.korrent.web.service.AuthService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -27,5 +28,12 @@ class AuthController {
         service.logout()
 
         return ResponseData(HttpStatus.OK.value(), "Logout successful")
+    }
+
+    @GetMapping("/verify")
+    fun verify(): ResponseData<Void> {
+        service.verify()
+
+        return ResponseData(HttpStatus.OK.value(), "Verify successful")
     }
 }

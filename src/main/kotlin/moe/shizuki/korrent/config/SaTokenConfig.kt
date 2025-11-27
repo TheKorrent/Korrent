@@ -12,11 +12,12 @@ class SaTokenConfig: WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(SaInterceptor {
             if (!StpUtil.isLogin()) {
-                throw InvalidTokenException("Token invalid") }
+                throw InvalidTokenException("Invalid token") }
             }
         ).apply {
             addPathPatterns("/**")
             excludePathPatterns("/api/v0/auth/login")
+            excludePathPatterns("/api/v0/auth/verify")
             excludePathPatterns("/error")
         }
     }
