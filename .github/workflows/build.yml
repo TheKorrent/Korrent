@@ -11,6 +11,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - run: cd webui/
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -30,6 +32,8 @@ jobs:
 
       - name: Build
         run: vite build
+
+      - run: cd ../
 
       - name: Move dist to resource
         run: mv webui/dist/* src/resources/static/
