@@ -2,6 +2,7 @@ package moe.shizuki.korrent.web.service
 
 import cn.dev33.satoken.stp.StpUtil
 import moe.shizuki.korrent.model.KorrentConfig
+import moe.shizuki.korrent.web.exception.InvalidTokenException
 import moe.shizuki.korrent.web.exception.InvalidUsernamePasswordException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -25,5 +26,13 @@ class AuthService {
         }
 
         StpUtil.logout("admin")
+    }
+
+    fun verify() {
+        if (StpUtil.isLogin()) {
+            return
+        }
+
+        throw InvalidTokenException("Invalid token")
     }
 }
