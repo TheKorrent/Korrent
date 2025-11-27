@@ -48,6 +48,7 @@ router.beforeEach(async (to, _, next) => {
         toast.error('Invalid token')
         store.isAuthenticated = false
         next('/login')
+        return
       }
     } catch (error) {
       toast.error('Unknown error')
