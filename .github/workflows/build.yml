@@ -11,6 +11,36 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'pnpm'
+          cache-dependency-path: webui/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: webui/
+
+      - name: Type check
+        run: ./node_modules/.bin/vue-tsc --build --force
+        working-directory: webui/
+
+      - name: Build
+        run: ./node_modules/.bin/vite build
+        working-directory: webui/
+
+      - name: Create folder
+        run: mkdir -p src/main/resources/static/
+
+      - name: Move dist to resource
+        run: mv webui/dist/* src/main/resources/static/
+
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
@@ -27,8 +57,11 @@ jobs:
           name: korrent-full
           path: target/*.jar
 
+      - name: Clean
+        run: rm -rf src/main/resources/static/
+
       - name: Build lite
-        run: mvn clean compile jar:jar
+        run: mvn clean package -D spring-boot.repackage.skip=true
 
       - name: Upload lite
         uses: actions/upload-artifact@v5
