@@ -35,6 +35,9 @@ jobs:
         run: ./node_modules/.bin/vite build
         working-directory: webui/
 
+      - name: Create folder
+        run: mkdir -p src/main/resources/static/
+
       - name: Move dist to resource
         run: mv webui/dist/* src/main/resources/static/
 
