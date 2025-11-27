@@ -20,13 +20,16 @@ runs:
         cache-dependency-path: webui/pnpm-lock.yaml
 
     - name: Install dependencies
+      shell: bash
       run: pnpm install --frozen-lockfile
       working-directory: webui/
 
     - name: Type check
+      shell: bash
       run: ./node_modules/.bin/vue-tsc --build --force
       working-directory: webui/
 
     - name: Build
+      shell: bash
       run: ./node_modules/.bin/vite build
       working-directory: webui/
