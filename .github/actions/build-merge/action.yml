@@ -4,9 +4,6 @@ runs:
   using: "composite"
 
   steps:
-    - name: Checkout
-      uses: actions/checkout@v6
-
     - name: Create folder
       shell: bash
       run: mkdir -p src/main/resources/static/
