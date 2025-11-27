@@ -43,7 +43,7 @@
   <v-card class="pa-4 mx-auto" max-width="400">
     <v-card-title class="text-h5 text-center">Login</v-card-title>
 
-    <v-form>
+    <v-form @submit.prevent="login">
       <v-text-field v-model="username" label="Username" prepend-inner-icon="mdi-account-outline" variant="outlined" />
       <v-text-field
         v-model="password"
@@ -53,7 +53,7 @@
         variant="outlined"
       />
 
-      <v-btn block color="primary" size="large" @click="login">Login</v-btn>
+      <v-btn block color="primary" size="large" type="submit">Login</v-btn>
     </v-form>
   </v-card>
 </template>
