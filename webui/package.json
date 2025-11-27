@@ -12,7 +12,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "@fontsource/roboto": "5.2.7",
+    "@fontsource/roboto": "5.2.9",
     "@mdi/font": "7.4.47",
     "monaco-editor": "^0.55.1",
     "monaco-editor-vue3": "^1.0.4",
