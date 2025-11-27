@@ -15,7 +15,7 @@ class SaTokenConfig: WebMvcConfigurer {
                 throw InvalidTokenException("Invalid token") }
             }
         ).apply {
-            addPathPatterns("/**")
+            addPathPatterns("/api/**")
             excludePathPatterns("/api/v0/auth/login")
             excludePathPatterns("/api/v0/auth/verify")
             excludePathPatterns("/error")
