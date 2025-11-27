@@ -8,7 +8,9 @@ runs:
       uses: actions/checkout@v6
 
     - name: Create folder
+      shell: bash
       run: mkdir -p src/main/resources/static/
 
     - name: Move dist to resource
+      shell: bash
       run: mv webui/dist/* src/main/resources/static/
