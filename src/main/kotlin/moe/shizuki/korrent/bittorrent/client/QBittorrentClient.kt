@@ -16,29 +16,35 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.File
 import java.net.CookieManager
 import java.net.CookiePolicy
+import java.net.InetAddress
+import java.net.InetSocketAddress
+import java.net.Proxy
 
 class QBittorrentClient(
-    val config: QBittorrentConfig
+    override val config: QBittorrentConfig
 ): BitTorrentClient() {
     private val service: QBittorrentService
 
     override val clientType = BitTorrentClientType.QBITTORRENT
-    override val clientConfig = config
 
     init {
         val cookieManager = CookieManager().apply {
             setCookiePolicy(CookiePolicy.ACCEPT_ALL)
         }
 
-        val client = OkHttpClient.Builder()
-            .cookieJar(JavaNetCookieJar(cookieManager))
-            .build()
+        val clientBuilder = OkHttpClient.Builder().apply {
+            cookieJar(JavaNetCookieJar(cookieManager))
+
+            if (config.common.proxy.enabled) {
+                proxy(Proxy(config.common.proxy.type, InetSocketAddress(config.common.proxy.host, config.common.proxy.port)))
+            }
+        }
 
         val retrofit = Retrofit.Builder()
             .baseUrl(config.common.baseUrl)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(JacksonConverterFactory.create(objectMapper))
-            .client(client)
+            .client(clientBuilder.build())
             .build()
 
         this.service = retrofit.create(QBittorrentService::class.java)
