@@ -26,7 +26,7 @@ class QBittorrentScheduleTask {
             {
                 publisher.polling(client)
             },
-            CronTrigger(client.clientConfig.common.polling.schedule)
+            CronTrigger(client.clientConfig.common.polling.cron)
         )
     }
 
