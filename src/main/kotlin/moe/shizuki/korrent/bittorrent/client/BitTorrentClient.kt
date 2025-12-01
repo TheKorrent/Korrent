@@ -5,5 +5,5 @@ import moe.shizuki.korrent.bittorrent.model.BitTorrentClientType
 
 abstract class BitTorrentClient {
     abstract val clientType: BitTorrentClientType
-    abstract val clientConfig: BitTorrentConfig
+    abstract val config: BitTorrentConfig
 }
