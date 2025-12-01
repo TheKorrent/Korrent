@@ -44,99 +44,99 @@ class QBittorrentClient(
         this.service = retrofit.create(QBittorrentService::class.java)
     }
 
-    fun login(username: String, password: String): Call<Void> {
+    suspend fun login(username: String, password: String) {
         return service.login(username, password)
     }
 
-    fun logout(): Call<Void> {
+    suspend fun logout() {
         return service.logout()
     }
 
-    fun getApplicationVersion(): Call<String> {
+    suspend fun getApplicationVersion(): String {
         return service.getApplicationVersion()
     }
 
-    fun getApiVersion(): Call<String> {
+    suspend fun getApiVersion(): String {
         return service.getApiVersion()
     }
 
-    fun getBuildInfo(): Call<QBittorrentBuildInfo> {
+    suspend fun getBuildInfo(): QBittorrentBuildInfo {
         return service.getBuildInfo()
     }
 
-    fun shutdown(): Call<Void> {
+    suspend fun shutdown() {
         return service.shutdown()
     }
 
-    fun getPreferences(): Call<QBittorrentPreference> {
+    suspend fun getPreferences(): QBittorrentPreference {
         return service.getPreferences()
     }
 
-    fun setPreferences(preferences: QBittorrentPreference): Call<Void> {
+    suspend fun setPreferences(preferences: QBittorrentPreference) {
         return service.setPreferences(objectMapper.writeValueAsString(preferences))
     }
 
-    fun getDefaultSavePath(): Call<String> {
+    suspend fun getDefaultSavePath(): String {
         return service.getDefaultSavePath()
     }
 
-    fun getCookies(): Call<Array<QBittorrentCookie>> {
+    suspend fun getCookies(): Array<QBittorrentCookie> {
         return service.getCookies()
     }
 
-    fun setCookies(vararg cookies: QBittorrentCookie): Call<Void> {
+    suspend fun setCookies(vararg cookies: QBittorrentCookie) {
         return service.setCookies(objectMapper.writeValueAsString(cookies))
     }
 
-    fun getLogs(normal: Boolean = true, info: Boolean = true, warning: Boolean = true, critical: Boolean = true, lastKnownId: Int = -1): Call<Array<QBittorrentLog>> {
+    suspend fun getLogs(normal: Boolean = true, info: Boolean = true, warning: Boolean = true, critical: Boolean = true, lastKnownId: Int = -1): Array<QBittorrentLog> {
         return service.getLogs(normal, info, warning, critical, lastKnownId)
     }
 
-    fun getPeerLogs(lastKnownId: Int = -1): Call<Array<QBittorrentPeerLog>> {
+    suspend fun getPeerLogs(lastKnownId: Int = -1): Array<QBittorrentPeerLog> {
         return service.getPeerLogs(lastKnownId)
     }
 
-    fun getSyncMainData(rid: Int = -1): Call<QBittorrentSyncMainData> {
+    suspend fun getSyncMainData(rid: Int = -1): QBittorrentSyncMainData {
         return service.getSyncMainData(rid)
     }
 
-    fun getSyncPeersData(hash: String): Call<QBittorrentSyncPeersData> {
+    suspend fun getSyncPeersData(hash: String): QBittorrentSyncPeersData {
         return service.getSyncPeersData(hash)
     }
 
-    fun getGlobalTransferInfo(): Call<QBittorrentTransferInfo> {
+    suspend fun getGlobalTransferInfo(): QBittorrentTransferInfo {
         return service.getGlobalTransferInfo()
     }
 
-    fun getAlternativeSpeedLimitsState(): Call<Int> {
+    suspend fun getAlternativeSpeedLimitsState(): Int {
         return service.getAlternativeSpeedLimitsState()
     }
 
-    fun toggleAlternativeSpeedLimits(): Call<Void> {
+    suspend fun toggleAlternativeSpeedLimits() {
         return service.toggleAlternativeSpeedLimits()
     }
 
-    fun getGlobalDownloadLimit(): Call<Int> {
+    suspend fun getGlobalDownloadLimit(): Int {
         return service.getGlobalDownloadLimit()
     }
 
-    fun setGlobalDownloadLimit(limit: Int): Call<Void> {
+    suspend fun setGlobalDownloadLimit(limit: Int) {
         return service.setGlobalDownloadLimit(limit)
     }
 
-    fun getGlobalUploadLimit(): Call<Int> {
+    suspend fun getGlobalUploadLimit(): Int {
         return service.getGlobalUploadLimit()
     }
 
-    fun setGlobalUploadLimit(limit: Int): Call<Void> {
+    suspend fun setGlobalUploadLimit(limit: Int) {
         return service.setGlobalUploadLimit(limit)
     }
 
-    fun banPeers(vararg peers: String): Call<Void> {
+    suspend fun banPeers(vararg peers: String) {
         return service.banPeers(peers.joinToString(separator = "|"))
     }
 
-    fun getTorrents(
+    suspend fun getTorrents(
         filter: String? = null,
         category: String? = null,
         tag: String? = null,
@@ -145,55 +145,55 @@ class QBittorrentClient(
         limit: Int? = null,
         offset: Int? = null,
         hashes: String? = null
-    ): Call<Array<QBittorrentTorrentInfo>> {
+    ): Array<QBittorrentTorrentInfo> {
         return service.getTorrents(filter, category, tag, sort, reverse, limit, offset, hashes)
     }
 
-    fun getTorrentGenericProperty(hash: String): Call<QBittorrentTorrentProperty> {
+    suspend fun getTorrentGenericProperty(hash: String): QBittorrentTorrentProperty {
         return service.getTorrentGenericProperty(hash)
     }
 
-    fun getTorrentTrackers(hash: String): Call<Array<QBittorrentTracker>> {
+    suspend fun getTorrentTrackers(hash: String): Array<QBittorrentTracker> {
         return service.getTorrentTrackers(hash)
     }
 
-    fun getTorrentWebSeeds(hash: String): Call<Array<QBittorrentWebSeed>> {
+    suspend fun getTorrentWebSeeds(hash: String): Array<QBittorrentWebSeed> {
         return service.getTorrentWebSeeds(hash)
     }
 
-    fun getTorrentContents(hash: String, indexes: String? = null): Call<Array<QBittorrentTorrentContent>> {
+    suspend fun getTorrentContents(hash: String, indexes: String? = null): Array<QBittorrentTorrentContent> {
         return service.getTorrentContents(hash, indexes)
     }
 
-    fun getTorrentPiecesStates(hash: String): Call<Array<Int>> {
+    suspend fun getTorrentPiecesStates(hash: String): Array<Int> {
         return service.getTorrentPiecesStates(hash)
     }
 
-    fun getTorrentPiecesHashes(hash: String): Call<Array<String>> {
+    suspend fun getTorrentPiecesHashes(hash: String): Array<String> {
         return service.getTorrentPiecesHashes(hash)
     }
 
-    fun stopTorrents(vararg hashes: String): Call<Void> {
+    suspend fun stopTorrents(vararg hashes: String) {
         return service.stopTorrents(hashes.joinToString(separator = "|"))
     }
 
-    fun startTorrents(vararg hashes: String): Call<Void> {
+    suspend fun startTorrents(vararg hashes: String) {
         return service.startTorrents(hashes.joinToString(separator = "|"))
     }
 
-    fun removeTorrents(vararg hashes: String, deleteFiles: Boolean): Call<Void> {
+    suspend fun removeTorrents(vararg hashes: String, deleteFiles: Boolean) {
         return service.removeTorrents(hashes.joinToString(separator = "|"), deleteFiles)
     }
 
-    fun recheckTorrents(vararg hashes: String): Call<Void> {
+    suspend fun recheckTorrents(vararg hashes: String) {
         return service.recheckTorrents(hashes.joinToString(separator = "|"))
     }
 
-    fun reannounceTorrents(vararg hashes: String): Call<Void> {
+    suspend fun reannounceTorrents(vararg hashes: String) {
         return service.reannounceTorrents(hashes.joinToString(separator = "|"))
     }
 
-    fun addTorrent(
+    suspend fun addTorrent(
         torrent: File,
         savepath: String? = null,
         category: String? = null,
@@ -209,7 +209,7 @@ class QBittorrentClient(
         autoTMM: Boolean? = null,
         sequentialDownload: Boolean? = null,
         firstLastPiecePrio: Boolean? = null,
-    ): Call<Void> {
+    ) {
         return service.addTorrentFromFile(
             MultipartBody.Part.createFormData("file", torrent.name,
                 torrent.asRequestBody("multipart/form-data".toMediaTypeOrNull())
@@ -231,7 +231,7 @@ class QBittorrentClient(
         )
     }
 
-    fun addTorrent(
+    suspend fun addTorrent(
         urls: String,
         savepath: String? = null,
         category: String? = null,
@@ -247,232 +247,232 @@ class QBittorrentClient(
         autoTMM: Boolean? = null,
         sequentialDownload: Boolean? = null,
         firstLastPiecePrio: Boolean? = null,
-    ): Call<Void> {
+    ) {
         return service.addTorrentFromUrl(urls, savepath, category, tags, skipChecking, paused, rootFolder, rename, upLimit, dlLimit, ratioLimit, seedingTimeLimit, autoTMM, sequentialDownload, firstLastPiecePrio)
     }
 
-    fun addTorrentTracker(hash: String, url: String): Call<Void> {
+    suspend fun addTorrentTracker(hash: String, url: String) {
         return service.addTorrentTrackers(hash, url)
     }
 
-    fun editTorrentTracker(hash: String, origUrl: String, newUrl: String): Call<Void> {
+    suspend fun editTorrentTracker(hash: String, origUrl: String, newUrl: String) {
         return service.editTorrentTracker(hash, origUrl, newUrl)
     }
 
-    fun removeTorrentTracker(hash: String, url: String): Call<Void> {
+    suspend fun removeTorrentTracker(hash: String, url: String) {
         return service.removeTorrentTrackers(hash, url)
     }
 
-    fun addTorrentPeers(hash: String, vararg peers: String): Call<Void> {
+    suspend fun addTorrentPeers(hash: String, vararg peers: String) {
         return service.addTorrentPeers(hash, peers.joinToString(separator = "|"))
     }
 
-    fun increaseTorrentPriority(vararg hashes: String): Call<Void> {
+    suspend fun increaseTorrentPriority(vararg hashes: String) {
         return service.increaseTorrentPriority(hashes.joinToString(separator = "|"))
     }
 
-    fun decreaseTorrentPriority(vararg hashes: String): Call<Void> {
+    suspend fun decreaseTorrentPriority(vararg hashes: String) {
         return service.decreaseTorrentPriority(hashes.joinToString(separator = "|"))
     }
 
-    fun maximalTorrentPriority(vararg hashes: String): Call<Void> {
+    suspend fun maximalTorrentPriority(vararg hashes: String) {
         return service.maximalTorrentPriority(hashes.joinToString(separator = "|"))
     }
 
-    fun minimalTorrentPriority(vararg hashes: String): Call<Void> {
+    suspend fun minimalTorrentPriority(vararg hashes: String) {
         return service.minimalTorrentPriority(hashes.joinToString(separator = "|"))
     }
 
-    fun setTorrentFilePriority(hash: String, id: Int, priority: Int): Call<Void> {
+    suspend fun setTorrentFilePriority(hash: String, id: Int, priority: Int) {
         return service.setTorrentFilePriority(hash, id, priority)
     }
 
-    fun getTorrentDownloadLimit(vararg hashes: String): Call<Map<String, Int>> {
+    suspend fun getTorrentDownloadLimit(vararg hashes: String): Map<String, Int> {
         return service.getTorrentDownloadLimit(hashes.joinToString(separator = "|"))
     }
 
-    fun setTorrentDownloadLimit(vararg hashes: String, limit: Int): Call<Void> {
+    suspend fun setTorrentDownloadLimit(vararg hashes: String, limit: Int) {
         return service.setTorrentDownloadLimit(hashes.joinToString(separator = "|"), limit)
     }
 
-    fun setTorrentShareLimit(
+    suspend fun setTorrentShareLimit(
         vararg hashes: String,
         ratioLimit: Float,
         seedingTimeLimit: Int,
         inactiveSeedingTimeLimit: Int
-    ): Call<Void> {
+    ) {
         return service.setTorrentShareLimit(hashes.joinToString(separator = "|"), ratioLimit, seedingTimeLimit, inactiveSeedingTimeLimit)
     }
 
-    fun getTorrentUploadLimit(vararg hashes: String): Call<Map<String, Int>> {
+    suspend fun getTorrentUploadLimit(vararg hashes: String): Map<String, Int> {
         return service.getTorrentUploadLimit(hashes.joinToString(separator = "|"))
     }
 
-    fun setTorrentUploadLimit(vararg hashes: String, limit: Int): Call<Void> {
+    suspend fun setTorrentUploadLimit(vararg hashes: String, limit: Int) {
         return service.setTorrentUploadLimit(hashes.joinToString(separator = "|"), limit)
     }
 
-    fun setTorrentLocation(vararg hashes: String, location: String): Call<Void> {
+    suspend fun setTorrentLocation(vararg hashes: String, location: String) {
         return service.setTorrentLocation(hashes.joinToString(separator = "|"), location)
     }
 
-    fun renameTorrent(hash: String, name: String): Call<Void> {
+    suspend fun renameTorrent(hash: String, name: String) {
         return service.renameTorrent(hash, name)
     }
 
-    fun setTorrentCategory(vararg hashes: String, category: String): Call<Void> {
+    suspend fun setTorrentCategory(vararg hashes: String, category: String) {
         return service.setTorrentCategory(hashes.joinToString(separator = "|"), category)
     }
 
-    fun getCategories(): Call<Map<String, QBittorrentCategory>> {
+    suspend fun getCategories(): Map<String, QBittorrentCategory> {
         return service.getCategories()
     }
 
-    fun createCategory(category: String, savePath: String): Call<Void> {
+    suspend fun createCategory(category: String, savePath: String) {
         return service.createCategory(category, savePath)
     }
 
-    fun editCategory(category: String, savePath: String): Call<Void> {
+    suspend fun editCategory(category: String, savePath: String) {
         return service.editCategory(category, savePath)
     }
 
-    fun deleteCategories(vararg categories: String): Call<Void> {
+    suspend fun deleteCategories(vararg categories: String) {
         return service.removeCategories(categories.joinToString(separator = "\n"))
     }
 
-    fun addTorrentTag(vararg hashes: String, tag: String): Call<Void> {
+    suspend fun addTorrentTag(vararg hashes: String, tag: String) {
         return service.addTorrentTag(hashes.joinToString(separator = "|"), tag)
     }
 
-    fun removeTorrentTag(vararg hashes: String, tag: String): Call<Void> {
+    suspend fun removeTorrentTag(vararg hashes: String, tag: String) {
         return service.removeTorrentTag(hashes.joinToString(separator = "|"), tag)
     }
 
-    fun getTags(): Call<Array<String>> {
+    suspend fun getTags(): Array<String> {
         return service.getTags()
     }
 
-    fun createTags(vararg tags: String): Call<Void> {
+    suspend fun createTags(vararg tags: String) {
         return service.createTags(tags.joinToString(separator = ","))
     }
 
-    fun deleteTags(vararg tags: String): Call<Void> {
+    suspend fun deleteTags(vararg tags: String) {
         return service.deleteTags(tags.joinToString(separator = ","))
     }
 
-    fun setAutomaticTorrentManagement(vararg hashes: String, enable: Boolean): Call<Void> {
+    suspend fun setAutomaticTorrentManagement(vararg hashes: String, enable: Boolean) {
         return service.setAutomaticTorrentManagement(hashes.joinToString(separator = "|"), enable)
     }
 
-    fun toggleSequentialDownload(vararg hashes: String): Call<Void> {
+    suspend fun toggleSequentialDownload(vararg hashes: String) {
         return service.toggleSequentialDownload(hashes.joinToString(separator = "|"))
     }
 
-    fun toggleFirstLastPiecePriority(vararg hashes: String): Call<Void> {
+    suspend fun toggleFirstLastPiecePriority(vararg hashes: String) {
         return service.toggleFirstLastPiecePriority(hashes.joinToString(separator = "|"))
     }
 
-    fun setForceStart(vararg hashes: String, enable: Boolean): Call<Void> {
+    suspend fun setForceStart(vararg hashes: String, enable: Boolean) {
         return service.setForceStart(hashes.joinToString(separator = "|"), enable)
     }
 
-    fun setSuperSeeding(vararg hashes: String, enable: Boolean): Call<Void> {
+    suspend fun setSuperSeeding(vararg hashes: String, enable: Boolean) {
         return service.setSuperSeeding(hashes.joinToString(separator = "|"), enable)
     }
 
-    fun renameTorrentFile(hash: String, oldPath: String, newPath: String): Call<Void> {
+    suspend fun renameTorrentFile(hash: String, oldPath: String, newPath: String) {
         return service.renameTorrentFile(hash, oldPath, newPath)
     }
 
-    fun renameTorrentFolder(hash: String, oldPath: String, newPath: String): Call<Void> {
+    suspend fun renameTorrentFolder(hash: String, oldPath: String, newPath: String) {
         return service.renameTorrentFolder(hash, oldPath, newPath)
     }
 
-    fun addRssFolder(path: String): Call<Void> {
+    suspend fun addRssFolder(path: String) {
         return service.addRssFolder(path)
     }
 
-    fun addRssFeed(url: String, path: String? = null): Call<Void> {
+    suspend fun addRssFeed(url: String, path: String? = null) {
         return service.addRssFeed(url, path)
     }
 
-    fun removeRssFeed(path: String): Call<Void> {
+    suspend fun removeRssFeed(path: String) {
         return service.removeRssFeed(path)
     }
 
-    fun moveRssFeed(itemPath: String, destPath: String): Call<Void> {
+    suspend fun moveRssFeed(itemPath: String, destPath: String) {
         return service.moveRssFeed(itemPath, destPath)
     }
 
-    fun getRssFeeds(withData: Boolean): Call<String> {
+    suspend fun getRssFeeds(withData: Boolean): String {
         return service.getRssFeeds(withData)
     }
 
-    fun markRssAsRead(itemPath: String, articleId: String? = null): Call<Void> {
+    suspend fun markRssAsRead(itemPath: String, articleId: String? = null) {
         return service.markRssAsRead(itemPath, articleId)
     }
 
-    fun refreshRssFeed(itemPath: String): Call<Void> {
+    suspend fun refreshRssFeed(itemPath: String) {
         return service.refreshRssFeed(itemPath)
     }
 
-    fun setRssRule(ruleName: String, ruleDef: QBittorrentRssRule): Call<Void> {
+    suspend fun setRssRule(ruleName: String, ruleDef: QBittorrentRssRule) {
         return service.setRssRule(ruleName, objectMapper.writeValueAsString(ruleDef))
     }
 
-    fun renameRssRule(ruleName: String, newRuleName: String): Call<Void> {
+    suspend fun renameRssRule(ruleName: String, newRuleName: String) {
         return service.renameRssRule(ruleName, newRuleName)
     }
 
-    fun removeRssRule(ruleName: String): Call<Void> {
+    suspend fun removeRssRule(ruleName: String) {
         return service.removeRssRule(ruleName)
     }
 
-    fun getRssRules(): Call<Map<String, QBittorrentRssRule>> {
+    suspend fun getRssRules(): Map<String, QBittorrentRssRule> {
         return service.getRssRules()
     }
 
-    fun matchingRssArticles(ruleName: String): Call<Map<String, Array<String>>> {
+    suspend fun matchingRssArticles(ruleName: String): Map<String, Array<String>> {
         return service.matchingRssArticles(ruleName)
     }
 
-    fun startSearch(pattern: String, plugins: String, category: String): Call<QBittorrentSearchId> {
+    suspend fun startSearch(pattern: String, plugins: String, category: String): QBittorrentSearchId {
         return service.startSearch(pattern, plugins, category)
     }
 
-    fun stopSearch(id: Int): Call<Void> {
+    suspend fun stopSearch(id: Int) {
         return service.stopSearch(id)
     }
 
-    fun getSearchStatus(id: Int? = null): Call<Array<QBittorrentSearchStatus>> {
+    suspend fun getSearchStatus(id: Int? = null): Array<QBittorrentSearchStatus> {
         return service.getSearchStatus(id)
     }
 
-    fun getSearchResults(id: Int, limit: Int? = null, offset: Int? = null): Call<QBittorrentSearchResult> {
+    suspend fun getSearchResults(id: Int, limit: Int? = null, offset: Int? = null): QBittorrentSearchResult {
         return service.getSearchResults(id, limit, offset)
     }
 
-    fun deleteSearchResult(id: Int): Call<Void> {
+    suspend fun deleteSearchResult(id: Int) {
         return service.deleteSearchResult(id)
     }
 
-    fun getSearchPlugins(): Call<Array<QBittorrentPlugin>> {
+    suspend fun getSearchPlugins(): Array<QBittorrentPlugin> {
         return service.getSearchPlugins()
     }
 
-    fun installSearchPlugin(sources: String): Call<Void> {
+    suspend fun installSearchPlugin(sources: String) {
         return service.installSearchPlugin(sources)
     }
 
-    fun uninstallSearchPlugin(names: String): Call<Void> {
+    suspend fun uninstallSearchPlugin(names: String) {
         return service.uninstallSearchPlugin(names)
     }
 
-    fun enableSearchPlugin(names: String, enable: Boolean): Call<Void> {
+    suspend fun enableSearchPlugin(names: String, enable: Boolean) {
         return service.enableSearchPlugin(names, enable)
     }
 
-    fun updateSearchPlugins(): Call<Void> {
+    suspend fun updateSearchPlugins() {
         return service.updateSearchPlugins()
     }
 }
