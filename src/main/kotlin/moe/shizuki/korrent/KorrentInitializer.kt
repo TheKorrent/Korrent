@@ -2,6 +2,7 @@ package moe.shizuki.korrent
 
 import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.bittorrent.config.BitTorrentConfigManager
+import moe.shizuki.korrent.bittorrent.config.QBittorrentConfig
 import moe.shizuki.korrent.plugin.KorrentPlugin
 import org.pf4j.DefaultPluginManager
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,6 +43,16 @@ class KorrentInitializer {
 
         for (plugin in plugins) {
             plugin.initialize(eventbus)
+        }
+    }
+
+    fun initExampleConfigs() {
+        val clientConfig = File(exampleConfigFolder, "qbittorrent-client.json")
+
+        if (!clientConfig.exists()) {
+            clientConfig.parentFile.mkdirs()
+            clientConfig.createNewFile()
+            clientConfig.writeText(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(QBittorrentConfig()))
         }
     }
 }

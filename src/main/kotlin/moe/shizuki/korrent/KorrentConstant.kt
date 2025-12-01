@@ -17,6 +17,7 @@ val pluginFolder = File("plugins/")
 val dataFolder = File("data/")
 val cacheFolder = File("cache/")
 val configFolder = File("config/")
+val exampleConfigFolder = File("example/")
 
 val pluginDataFolder = File(dataFolder, "plugins/")
 val pluginConfigFolder = File(configFolder, "plugins/")
