@@ -50,6 +50,7 @@ class KorrentInitializer {
         val clientConfig = File(exampleConfigFolder, "qbittorrent-client.json")
 
         if (!clientConfig.exists()) {
+            clientConfig.parentFile.mkdirs()
             clientConfig.createNewFile()
             clientConfig.writeText(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(QBittorrentConfig()))
         }
