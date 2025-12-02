@@ -25,15 +25,16 @@ class PluginService {
         temp.parentFile.mkdirs()
         file.transferTo(File(temp.absolutePath))
 
-        val id = runCatching {
-            JarFile(temp).use { jar ->
-                jar.manifest.mainAttributes.getValue("Plugin-Id")
+        val id =
+            runCatching {
+                JarFile(temp).use { jar ->
+                    jar.manifest.mainAttributes.getValue("Plugin-Id")
+                }
+            }.getOrElse {
+                throw InvalidPluginException("Plugin cannot be parsed")
             }
-        }.getOrElse {
-            throw InvalidPluginException("Plugin cannot be parsed")
-        }
 
-        val plugin = File(pluginFolder, "${id}.jar")
+        val plugin = File(pluginFolder, "$id.jar")
 
         if (plugin.exists()) {
             throw PluginAlreadyExistsException("Plugin already exists")
@@ -43,8 +44,8 @@ class PluginService {
         pluginManager.loadPlugin(plugin.toPath())
     }
 
-    fun getPlugins(): List<PluginInfo> {
-        return pluginManager.plugins.toList().map { plugin ->
+    fun getPlugins(): List<PluginInfo> =
+        pluginManager.plugins.toList().map { plugin ->
             PluginInfo(
                 plugin.descriptor.pluginId,
                 plugin.descriptor.version,
@@ -52,10 +53,9 @@ class PluginService {
                 plugin.descriptor.pluginDescription,
                 plugin.descriptor.license,
                 plugin.descriptor.dependencies,
-                plugin.pluginState
+                plugin.pluginState,
             )
         }
-    }
 
     fun getPlugin(id: String): PluginInfo {
         val plugin = pluginManager.getPlugin(id) ?: throw PluginNotFoundException("Plugin not found")
@@ -67,11 +67,14 @@ class PluginService {
             plugin.descriptor.pluginDescription,
             plugin.descriptor.license,
             plugin.descriptor.dependencies,
-            plugin.pluginState
+            plugin.pluginState,
         )
     }
 
-    fun updatePlugin(id: String, file: MultipartFile) {
+    fun updatePlugin(
+        id: String,
+        file: MultipartFile,
+    ) {
         removePlugin(id)
         addPlugin(file)
     }
@@ -100,7 +103,7 @@ class PluginService {
     fun getPluginConfig(id: String): String {
         val plugin = pluginManager.getPlugin(id) ?: throw PluginNotFoundException("Plugin not found")
 
-        val configFile = File(pluginConfigFolder, "${id}.json")
+        val configFile = File(pluginConfigFolder, "$id.json")
 
         if (!configFile.exists()) {
             throw PluginNotFoundException("Plugin config not found")
@@ -109,10 +112,13 @@ class PluginService {
         return configFile.readText()
     }
 
-    fun updatePluginConfig(id: String, config: String) {
+    fun updatePluginConfig(
+        id: String,
+        config: String,
+    ) {
         val plugin = pluginManager.getPlugin(id) ?: throw PluginNotFoundException("Plugin not found")
 
-        val configFile = File(pluginConfigFolder, "${id}.json")
+        val configFile = File(pluginConfigFolder, "$id.json")
 
         if (!configFile.exists()) {
             throw PluginNotFoundException("Plugin config not found")

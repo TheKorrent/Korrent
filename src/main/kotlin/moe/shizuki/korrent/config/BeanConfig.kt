@@ -12,19 +12,13 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class BeanConfig {
     @Bean
-    fun eventbus(): EventBus{
-        return EventBus()
-    }
+    fun eventbus(): EventBus = EventBus()
 
     @Bean
-    fun pluginManager(): DefaultPluginManager {
-        return DefaultPluginManager()
-    }
+    fun pluginManager(): DefaultPluginManager = DefaultPluginManager()
 
     @Bean
-    fun objectMapper(): ObjectMapper {
-        return objectMapper
-    }
+    fun objectMapper(): ObjectMapper = objectMapper
 
     @Bean
     fun korrentConfig(): KorrentConfig {

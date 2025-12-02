@@ -45,5 +45,5 @@ data class QBittorrentTorrentProperty(
     @field:JsonProperty("total_wasted") val totalWasted: Long,
     @field:JsonProperty("up_limit") val upLimit: Long,
     @field:JsonProperty("up_speed") val upSpeed: Long,
-    @field:JsonProperty("up_speed_avg") val upSpeedAvg: Long
+    @field:JsonProperty("up_speed_avg") val upSpeedAvg: Long,
 )

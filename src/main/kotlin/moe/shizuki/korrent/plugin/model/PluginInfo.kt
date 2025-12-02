@@ -10,5 +10,5 @@ class PluginInfo(
     val description: String,
     val license: String,
     val dependencies: List<PluginDependency>,
-    val state: PluginState
+    val state: PluginState,
 )

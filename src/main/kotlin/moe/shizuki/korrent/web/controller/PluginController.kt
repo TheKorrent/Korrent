@@ -5,7 +5,16 @@ import moe.shizuki.korrent.web.model.ResponseData
 import moe.shizuki.korrent.web.service.PluginService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
@@ -15,57 +24,69 @@ class PluginController {
     private lateinit var service: PluginService
 
     @PostMapping
-    fun addPlugin(@RequestParam("file") file: MultipartFile): ResponseData<Void> {
+    fun addPlugin(
+        @RequestParam("file") file: MultipartFile,
+    ): ResponseData<Void> {
         service.addPlugin(file)
 
         return ResponseData(HttpStatus.CREATED.value(), "Add plugin successful")
     }
 
     @GetMapping
-    fun getPlugins(): ResponseData<List<PluginInfo>> {
-        return ResponseData(HttpStatus.OK.value(), "Get plugins successful", service.getPlugins())
-    }
+    fun getPlugins(): ResponseData<List<PluginInfo>> = ResponseData(HttpStatus.OK.value(), "Get plugins successful", service.getPlugins())
 
     @GetMapping("/{id}")
-    fun getPlugin(@PathVariable("id") id: String): ResponseData<PluginInfo> {
-        return ResponseData(HttpStatus.OK.value(), "Get plugin successful", service.getPlugin(id))
-    }
+    fun getPlugin(
+        @PathVariable("id") id: String,
+    ): ResponseData<PluginInfo> = ResponseData(HttpStatus.OK.value(), "Get plugin successful", service.getPlugin(id))
 
     @PutMapping("/{id}")
-    fun updatePlugin(@PathVariable("id") id: String, @RequestBody file: MultipartFile): ResponseData<Void> {
+    fun updatePlugin(
+        @PathVariable("id") id: String,
+        @RequestBody file: MultipartFile,
+    ): ResponseData<Void> {
         service.updatePlugin(id, file)
 
         return ResponseData(HttpStatus.OK.value(), "Update plugin successful")
     }
 
     @DeleteMapping("/{id}")
-    fun deletePlugin(@PathVariable("id") id: String): ResponseData<Void> {
+    fun deletePlugin(
+        @PathVariable("id") id: String,
+    ): ResponseData<Void> {
         service.removePlugin(id)
 
         return ResponseData(HttpStatus.NO_CONTENT.value(), "Delete plugin successful")
     }
 
     @PatchMapping("/{id}/enable")
-    fun enablePlugin(@PathVariable("id") id: String): ResponseData<Void> {
+    fun enablePlugin(
+        @PathVariable("id") id: String,
+    ): ResponseData<Void> {
         service.enablePlugin(id)
 
         return ResponseData(HttpStatus.NO_CONTENT.value(), "Enable plugin successful")
     }
 
     @PatchMapping("/{id}/disable")
-    fun disablePlugin(@PathVariable("id") id: String): ResponseData<Void> {
+    fun disablePlugin(
+        @PathVariable("id") id: String,
+    ): ResponseData<Void> {
         service.disablePlugin(id)
 
         return ResponseData(HttpStatus.NO_CONTENT.value(), "Disable plugin successful")
     }
 
     @GetMapping("/{id}/config")
-    fun getPluginConfig(@PathVariable("id") id: String): ResponseData<String> {
-        return ResponseData(HttpStatus.OK.value(), "Get plugin config successful", service.getPluginConfig(id))
-    }
+    fun getPluginConfig(
+        @PathVariable("id") id: String,
+    ): ResponseData<String> = ResponseData(HttpStatus.OK.value(), "Get plugin config successful", service.getPluginConfig(id))
 
     @PutMapping("/{id}/config")
-    fun updatePluginConfig(@PathVariable("id") id: String, @RequestBody config: String): ResponseData<Void> {
+    fun updatePluginConfig(
+        @PathVariable("id") id: String,
+        @RequestBody config: String,
+    ): ResponseData<Void> {
         service.updatePluginConfig(id, config)
 
         return ResponseData(HttpStatus.OK.value(), "Update plugin config successful")
