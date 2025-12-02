@@ -1,6 +1,7 @@
 package moe.shizuki.korrent.bittorrent.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import kotlinx.coroutines.runBlocking
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClientManager
 import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
 import moe.shizuki.korrent.clientConfigFile
@@ -34,16 +35,18 @@ class BitTorrentConfigManager {
     }
 
     fun load() {
-        val jsonTree = objectMapper.readTree(clientConfigFile)
+        runBlocking {
+            val jsonTree = objectMapper.readTree(clientConfigFile)
 
-        if (jsonTree.has("qbittorrent")) {
-            val config = get(QBittorrentConfig::class.java)
+            if (jsonTree.has("qbittorrent")) {
+                val config = get(QBittorrentConfig::class.java)
 
-            if (config is QBittorrentConfig) {
-                val client = QBittorrentClient(config)
+                if (config is QBittorrentConfig) {
+                    val client = QBittorrentClient(config)
 
-                client.login(config.qbittorrent.username, config.qbittorrent.password).execute()
-                clientManager.add(client)
+                    client.login(config.qbittorrent.username, config.qbittorrent.password)
+                    clientManager.add(client)
+                }
             }
         }
     }
