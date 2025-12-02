@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 
 enum class QBittorrentState(
     val state: String,
-    val type: Type
+    val type: Type,
 ) {
     ERROR("error", Type.NONE),
     MISSING_FILES("missingFiles", Type.NONE),
@@ -24,21 +24,20 @@ enum class QBittorrentState(
     FORCED_DOWNLOAD("forcedDL", Type.DOWNLOAD),
     CHECKING_RESUME_DATA("checkingResumeData", Type.NONE),
     MOVING("moving", Type.NONE),
-    UNKNOWN("unknown", Type.NONE);
+    UNKNOWN("unknown", Type.NONE),
+    ;
 
     companion object {
         private val MAP = entries.associateBy { it.state }
 
         @JvmStatic
         @JsonCreator
-        fun fromString(state: String): QBittorrentState {
-            return MAP[state] ?: UNKNOWN
-        }
+        fun fromString(state: String): QBittorrentState = MAP[state] ?: UNKNOWN
     }
 
     enum class Type {
         UPLOAD,
         DOWNLOAD,
-        NONE
+        NONE,
     }
 }

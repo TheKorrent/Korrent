@@ -25,9 +25,7 @@ class ClientService {
         configManager.load()
     }
 
-    fun getClient(): BitTorrentConfig {
-        return clientManager.get()?.config ?: throw ClientNotFoundException("Client not found")
-    }
+    fun getClient(): BitTorrentConfig = clientManager.get()?.config ?: throw ClientNotFoundException("Client not found")
 
     fun updateClient(client: String) {
         if (clientManager.get() == null) {

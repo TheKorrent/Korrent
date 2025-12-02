@@ -5,9 +5,10 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-class SpaWebConfig: WebMvcConfigurer {
+class SpaWebConfig : WebMvcConfigurer {
     override fun addViewControllers(registry: ViewControllerRegistry) {
-        registry.addViewController("/{path:[^\\.]*}")
+        registry
+            .addViewController("/{path:[^\\.]*}")
             .setViewName("forward:/index.html")
     }
 }

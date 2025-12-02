@@ -17,7 +17,10 @@ class AuthController {
     private lateinit var service: AuthService
 
     @PostMapping("/login")
-    fun login(@RequestParam("username") username: String, @RequestParam("password") password: String): ResponseData<Void> {
+    fun login(
+        @RequestParam("username") username: String,
+        @RequestParam("password") password: String,
+    ): ResponseData<Void> {
         service.login(username, password)
 
         return ResponseData(HttpStatus.OK.value(), "Login successful")

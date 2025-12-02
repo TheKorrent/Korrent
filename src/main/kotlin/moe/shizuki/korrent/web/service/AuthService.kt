@@ -12,7 +12,10 @@ class AuthService {
     @Autowired
     private lateinit var config: KorrentConfig
 
-    fun login(username: String, password: String) {
+    fun login(
+        username: String,
+        password: String,
+    ) {
         if (config.web.username != username || config.web.password != password) {
             throw InvalidUsernamePasswordException("Invalid username or password")
         }

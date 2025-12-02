@@ -12,5 +12,5 @@ data class QBittorrentTransferInfo(
     @field:JsonProperty("last_external_address_v6") val lastExternalAddressV6: String,
     @field:JsonProperty("up_info_data") val upInfoData: Long,
     @field:JsonProperty("up_info_speed") val upInfoSpeed: Int,
-    @field:JsonProperty("up_rate_limit") val upRateLimit: Int
+    @field:JsonProperty("up_rate_limit") val upRateLimit: Int,
 )

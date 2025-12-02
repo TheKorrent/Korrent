@@ -5,5 +5,5 @@ import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
 class QBittorrentTorrentTrackerRemovedEvent(
     val client: QBittorrentClient,
     val torrent: String,
-    val tracker: String
+    val tracker: String,
 )

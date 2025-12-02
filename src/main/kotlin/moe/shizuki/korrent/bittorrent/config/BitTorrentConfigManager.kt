@@ -17,7 +17,7 @@ class BitTorrentConfigManager {
     private lateinit var objectMapper: ObjectMapper
 
     fun add(json: String) {
-        if(clientConfigFile.exists()) {
+        if (clientConfigFile.exists()) {
             return
         }
 
@@ -30,9 +30,7 @@ class BitTorrentConfigManager {
         clientConfigFile.delete()
     }
 
-    fun get(clazz: Class<*>): Any? {
-        return objectMapper.readValue(clientConfigFile, clazz)
-    }
+    fun get(clazz: Class<*>): Any? = objectMapper.readValue(clientConfigFile, clazz)
 
     fun load() {
         runBlocking {

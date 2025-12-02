@@ -6,7 +6,7 @@ data class QBittorrentSyncPeersData(
     @field:JsonProperty("full_update") val fullUpdate: Boolean,
     @field:JsonProperty("peers") val peers: Map<String, Peer>,
     @field:JsonProperty("rid") val rid: Int,
-    @field:JsonProperty("show_flags") val showFlags: Boolean
+    @field:JsonProperty("show_flags") val showFlags: Boolean,
 ) {
     data class Peer(
         @field:JsonProperty("client") val client: String,
@@ -24,6 +24,6 @@ data class QBittorrentSyncPeersData(
         @field:JsonProperty("progress") val progress: Double,
         @field:JsonProperty("relevance") val relevance: Int,
         @field:JsonProperty("up_speed") val upSpeed: Long,
-        @field:JsonProperty("uploaded") val uploaded: Long
+        @field:JsonProperty("uploaded") val uploaded: Long,
     )
 }
