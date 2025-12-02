@@ -41,5 +41,7 @@ class BitTorrentClientManager {
         }
     }
 
-    fun get(): BitTorrentClient? = clients["client"]
+    fun get(): BitTorrentClient? {
+        return clients["client"]
+    }
 }

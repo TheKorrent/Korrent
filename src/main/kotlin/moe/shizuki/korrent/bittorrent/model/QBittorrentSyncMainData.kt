@@ -13,7 +13,7 @@ data class QBittorrentSyncMainData(
     @field:JsonProperty("torrents") val torrents: Map<String, QBittorrentTorrentInfo>?,
     @field:JsonProperty("torrents_removed") val torrentsRemoved: List<String>?,
     @field:JsonProperty("trackers") val trackers: Map<String, Array<String>>?,
-    @field:JsonProperty("trackers_removed") val trackersRemoved: List<String>?,
+    @field:JsonProperty("trackers_removed") val trackersRemoved: List<String>?
 ) {
     data class ServerState(
         @field:JsonProperty("alltime_dl") val alltimeDl: Long?,
@@ -43,6 +43,6 @@ data class QBittorrentSyncMainData(
         @field:JsonProperty("use_alt_speed_limits") val useAltSpeedLimits: Boolean?,
         @field:JsonProperty("use_subcategories") val useSubcategories: Boolean?,
         @field:JsonProperty("write_cache_overload") val writeCacheOverload: String?,
-        @field:JsonProperty("piece_range") val pieceRange: List<Int>?,
+        @field:JsonProperty("piece_range") val pieceRange: List<Int>?
     )
 }

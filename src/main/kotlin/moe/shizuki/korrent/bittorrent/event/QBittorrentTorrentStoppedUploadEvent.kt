@@ -4,5 +4,5 @@ import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
 
 class QBittorrentTorrentStoppedUploadEvent(
     val client: QBittorrentClient,
-    val torrent: String,
+    val torrent: String
 )

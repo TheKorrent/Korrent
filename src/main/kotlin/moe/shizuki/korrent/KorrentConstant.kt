@@ -6,10 +6,9 @@ import moe.shizuki.korrent.bittorrent.event.ScheduleEventManager
 import moe.shizuki.korrent.plugin.config.PluginConfigManager
 import java.io.File
 
-val objectMapper =
-    jacksonObjectMapper().apply {
-        setSerializationInclusion(JsonInclude.Include.NON_NULL)
-    }
+val objectMapper = jacksonObjectMapper().apply {
+    setSerializationInclusion(JsonInclude.Include.NON_NULL)
+}
 
 val pluginConfigManager = PluginConfigManager()
 val scheduleEventManager = ScheduleEventManager()
@@ -24,3 +23,4 @@ val pluginDataFolder = File(dataFolder, "plugins/")
 val pluginConfigFolder = File(configFolder, "plugins/")
 val korrentConfigFile = File(configFolder, "korrent.json")
 val clientConfigFile = File(configFolder, "client.json")
+

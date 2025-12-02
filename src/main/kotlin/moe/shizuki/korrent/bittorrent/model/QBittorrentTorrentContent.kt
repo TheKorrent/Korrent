@@ -10,5 +10,5 @@ data class QBittorrentTorrentContent(
     @field:JsonProperty("piece_range") val pieceRange: List<Int>,
     @field:JsonProperty("priority") val priority: Int,
     @field:JsonProperty("progress") val progress: Double,
-    @field:JsonProperty("size") val size: Long,
+    @field:JsonProperty("size") val size: Long
 )

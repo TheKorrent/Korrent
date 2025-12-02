@@ -5,5 +5,5 @@ import moe.shizuki.korrent.bittorrent.model.QBittorrentCategory
 
 class QBittorrentCategoryCreatedEvent(
     val client: QBittorrentClient,
-    val category: QBittorrentCategory,
+    val category: QBittorrentCategory
 )

@@ -135,9 +135,7 @@ class QBittorrentEventPublisher(
                             eventbus.post(QBittorrentTorrentStoppedDownloadEvent(client, torrent.key))
                         }
 
-                        if (torrent.value.state!!.type == QBittorrentState.Type.UPLOAD &&
-                            info?.state?.type == QBittorrentState.Type.DOWNLOAD
-                        ) {
+                        if (torrent.value.state!!.type == QBittorrentState.Type.UPLOAD && info?.state?.type == QBittorrentState.Type.DOWNLOAD) {
                             eventbus.post(QBittorrentTorrentDownloadedEvent(client, torrent.key))
                         }
 

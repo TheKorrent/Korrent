@@ -17,18 +17,17 @@ class QBittorrentScheduleTask {
     @Autowired
     private lateinit var eventbus: EventBus
 
-    private val tasks: HashMap<String, ScheduledFuture<*>?> = HashMap()
+    private val tasks: HashMap<String,  ScheduledFuture<*>?> = HashMap()
 
     fun add(client: QBittorrentClient) {
         val publisher = QBittorrentEventPublisher(eventbus)
 
-        tasks["client"] =
-            taskScheduler.schedule(
-                {
-                    publisher.polling(client)
-                },
-                CronTrigger(client.config.common.polling.cron),
-            )
+        tasks["client"] = taskScheduler.schedule(
+            {
+                publisher.polling(client)
+            },
+            CronTrigger(client.config.common.polling.cron)
+        )
     }
 
     fun remove(clientName: String) {

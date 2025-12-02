@@ -59,21 +59,20 @@ data class QBittorrentTorrentInfo(
     @field:JsonProperty("up_limit") val upLimit: Long?,
     @field:JsonProperty("uploaded") val uploaded: Long?,
     @field:JsonProperty("uploaded_session") val uploadedSession: Long?,
-    @field:JsonProperty("upspeed") val upspeed: Long?,
+    @field:JsonProperty("upspeed") val upspeed: Long?
 ) {
     fun mergeWith(other: QBittorrentTorrentInfo): QBittorrentTorrentInfo {
         val kClass = this::class
         val props = kClass.members.filterIsInstance<kotlin.reflect.KProperty1<QBittorrentTorrentInfo, Any?>>()
 
-        val values =
-            props.associate { prop ->
-                val newValue = prop.get(other)
-                val oldValue = prop.get(this)
-                prop.name to (newValue ?: oldValue)
-            }
+        val values = props.associate { prop ->
+            val newValue = prop.get(other)
+            val oldValue = prop.get(this)
+            prop.name to (newValue ?: oldValue)
+        }
 
         return kClass.primaryConstructor!!.callBy(
-            kClass.primaryConstructor!!.parameters.associateWith { values[it.name] },
+            kClass.primaryConstructor!!.parameters.associateWith { values[it.name] }
         )
     }
 }

@@ -18,7 +18,7 @@ data class QBittorrentRssRule(
     @field:JsonProperty("smartFilter") val smartFilter: Boolean? = null,
     @field:JsonProperty("torrentContentLayout") val torrentContentLayout: Any? = null,
     @field:JsonProperty("torrentParams") val torrentParams: TorrentParams? = null,
-    @field:JsonProperty("useRegex") val useRegex: Boolean? = null,
+    @field:JsonProperty("useRegex") val useRegex: Boolean? = null
 ) {
     data class TorrentParams(
         @field:JsonProperty("category") val category: String? = null,
@@ -35,6 +35,6 @@ data class QBittorrentRssRule(
         @field:JsonProperty("ssl_dh_params") val sslDhParams: String? = null,
         @field:JsonProperty("ssl_private_key") val sslPrivateKey: String? = null,
         @field:JsonProperty("tags") val tags: List<String>? = null,
-        @field:JsonProperty("upload_limit") val uploadLimit: Int? = null,
+        @field:JsonProperty("upload_limit") val uploadLimit: Int? = null
     )
 }

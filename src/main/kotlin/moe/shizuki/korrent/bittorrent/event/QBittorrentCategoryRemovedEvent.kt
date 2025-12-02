@@ -4,5 +4,5 @@ import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
 
 class QBittorrentCategoryRemovedEvent(
     val client: QBittorrentClient,
-    val category: String,
+    val category: String
 )

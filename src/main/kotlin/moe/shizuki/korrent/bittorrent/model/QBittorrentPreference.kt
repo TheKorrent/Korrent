@@ -223,5 +223,5 @@ data class QBittorrentPreference(
     @field:JsonProperty("web_ui_session_timeout") val webUiSessionTimeout: Int? = null,
     @field:JsonProperty("web_ui_upnp") val webUiUpnp: Boolean? = null,
     @field:JsonProperty("web_ui_use_custom_http_headers_enabled") val webUiUseCustomHttpHeadersEnabled: Boolean? = null,
-    @field:JsonProperty("web_ui_username") val webUiUsername: String? = null,
+    @field:JsonProperty("web_ui_username") val webUiUsername: String? = null
 )

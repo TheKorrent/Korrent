@@ -8,20 +8,17 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-class SaTokenConfig : WebMvcConfigurer {
+class SaTokenConfig: WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {
-        registry
-            .addInterceptor(
-                SaInterceptor {
-                    if (!StpUtil.isLogin()) {
-                        throw InvalidTokenException("Invalid token")
-                    }
-                },
-            ).apply {
-                addPathPatterns("/api/**")
-                excludePathPatterns("/api/v0/auth/login")
-                excludePathPatterns("/api/v0/auth/verify")
-                excludePathPatterns("/error")
+        registry.addInterceptor(SaInterceptor {
+            if (!StpUtil.isLogin()) {
+                throw InvalidTokenException("Invalid token") }
             }
+        ).apply {
+            addPathPatterns("/api/**")
+            excludePathPatterns("/api/v0/auth/login")
+            excludePathPatterns("/api/v0/auth/verify")
+            excludePathPatterns("/error")
+        }
     }
 }

@@ -4,12 +4,10 @@ import moe.shizuki.korrent.objectMapper
 import moe.shizuki.korrent.pluginConfigFolder
 import java.io.File
 
-class PluginConfigManager {
-    fun register(
-        name: String,
-        config: PluginConfig,
-    ) {
-        val file = File(pluginConfigFolder, "$name.json")
+class PluginConfigManager(
+) {
+    fun register(name: String, config: PluginConfig) {
+        val file = File(pluginConfigFolder, "${name}.json")
 
         file.parentFile.mkdirs()
 
@@ -20,8 +18,7 @@ class PluginConfigManager {
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, config)
     }
 
-    fun load(
-        name: String,
-        clazz: Class<*>,
-    ): Any? = objectMapper.readValue(File(pluginConfigFolder, "$name.json").readText(), clazz)
+    fun load(name: String, clazz: Class<*>): Any? {
+        return objectMapper.readValue(File(pluginConfigFolder, "${name}.json").readText(), clazz)
+    }
 }

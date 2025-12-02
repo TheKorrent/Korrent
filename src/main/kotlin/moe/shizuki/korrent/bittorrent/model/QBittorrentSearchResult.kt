@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class QBittorrentSearchResult(
     @field:JsonProperty("results") val results: List<Result>,
     @field:JsonProperty("status") val status: String,
-    @field:JsonProperty("total") val total: Int,
+    @field:JsonProperty("total") val total: Int
 ) {
     data class Result(
         @field:JsonProperty("descrLink") val descrLink: String,
@@ -16,6 +16,6 @@ data class QBittorrentSearchResult(
         @field:JsonProperty("nbLeechers") val nbLeechers: Int,
         @field:JsonProperty("nbSeeders") val nbSeeders: Int,
         @field:JsonProperty("pubDate") val pubDate: Long,
-        @field:JsonProperty("siteUrl") val siteUrl: String,
+        @field:JsonProperty("siteUrl") val siteUrl: String
     )
 }

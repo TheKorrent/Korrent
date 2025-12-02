@@ -8,10 +8,10 @@ data class QBittorrentPlugin(
     @field:JsonProperty("name") val name: String,
     @field:JsonProperty("supportedCategories") val supportedCategories: List<SupportedCategory>,
     @field:JsonProperty("url") val url: String,
-    @field:JsonProperty("version") val version: String,
+    @field:JsonProperty("version") val version: String
 ) {
     data class SupportedCategory(
         @field:JsonProperty("id") val id: String,
-        @field:JsonProperty("name") val name: String,
+        @field:JsonProperty("name") val name: String
     )
 }

@@ -10,5 +10,5 @@ data class QBittorrentTracker(
     @field:JsonProperty("num_seeds") val numSeeds: Int,
     @field:JsonProperty("status") val status: Int,
     @field:JsonProperty("tier") val tier: Int,
-    @field:JsonProperty("url") val url: String,
+    @field:JsonProperty("url") val url: String
 )
