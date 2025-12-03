@@ -2,6 +2,15 @@ spring:
   application:
     name: Korrent
 
+logging:
+  file:
+    name: logs/korrent.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: logs/korrent-%d{yyyy-MM-dd}_%i.log
+      max-file-size: 10MB
+      max-history: 30
+
 sa-token:
   token-name: Korrent-Token
   token-style: random-128

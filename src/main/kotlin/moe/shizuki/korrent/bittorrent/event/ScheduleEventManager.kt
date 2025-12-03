@@ -1,10 +1,13 @@
 package moe.shizuki.korrent.bittorrent.event
 
 import com.google.common.eventbus.EventBus
+import io.github.oshai.kotlinlogging.KotlinLogging
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClient
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.support.CronTrigger
 import java.util.concurrent.ScheduledFuture
+
+private val logger = KotlinLogging.logger {}
 
 class ScheduleEventManager {
     private val tasks: HashMap<String,  ScheduledFuture<*>?> = HashMap()
@@ -37,10 +40,14 @@ class ScheduleEventManager {
             },
             CronTrigger(cron)
         )
+
+        logger.info { "ScheduleEvent registered: [${event::class}]" }
     }
 
     fun unregister(event: ScheduleEvent) {
         tasks[event.javaClass.name]?.cancel(false)
         tasks.remove(event.javaClass.name)
+
+        logger.info { "ScheduleEvent unregistered: [${event::class}]" }
     }
 }
