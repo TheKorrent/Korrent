@@ -21,6 +21,7 @@ class KorrentInitializer {
     private lateinit var eventbus: EventBus
 
     fun init() {
+        initExampleConfigs()
         initPlugins()
         initBitTorrents()
     }
