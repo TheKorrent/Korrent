@@ -1,12 +1,15 @@
 package moe.shizuki.korrent.bittorrent.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.runBlocking
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClientManager
 import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
 import moe.shizuki.korrent.clientConfigFile
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+
+private val logger = KotlinLogging.logger {}
 
 @Component
 class BitTorrentConfigManager {
@@ -18,6 +21,8 @@ class BitTorrentConfigManager {
 
     fun add(json: String) {
         if(clientConfigFile.exists()) {
+            logger.error { "Client config file already exists" }
+
             return
         }
 
@@ -35,6 +40,12 @@ class BitTorrentConfigManager {
     }
 
     fun load() {
+        if (!clientConfigFile.exists()) {
+            logger.error { "Client config file not exists" }
+
+            return
+        }
+
         runBlocking {
             val jsonTree = objectMapper.readTree(clientConfigFile)
 
