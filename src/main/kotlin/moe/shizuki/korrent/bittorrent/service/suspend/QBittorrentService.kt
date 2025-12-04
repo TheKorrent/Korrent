@@ -1,8 +1,32 @@
-package moe.shizuki.korrent.bittorrent.service
+package moe.shizuki.korrent.bittorrent.service.suspend
 
-import moe.shizuki.korrent.bittorrent.model.*
+import moe.shizuki.korrent.bittorrent.model.QBittorrentBuildInfo
+import moe.shizuki.korrent.bittorrent.model.QBittorrentCategory
+import moe.shizuki.korrent.bittorrent.model.QBittorrentCookie
+import moe.shizuki.korrent.bittorrent.model.QBittorrentLog
+import moe.shizuki.korrent.bittorrent.model.QBittorrentPeerLog
+import moe.shizuki.korrent.bittorrent.model.QBittorrentPlugin
+import moe.shizuki.korrent.bittorrent.model.QBittorrentPreference
+import moe.shizuki.korrent.bittorrent.model.QBittorrentRssRule
+import moe.shizuki.korrent.bittorrent.model.QBittorrentSearchId
+import moe.shizuki.korrent.bittorrent.model.QBittorrentSearchResult
+import moe.shizuki.korrent.bittorrent.model.QBittorrentSearchStatus
+import moe.shizuki.korrent.bittorrent.model.QBittorrentSyncMainData
+import moe.shizuki.korrent.bittorrent.model.QBittorrentSyncPeersData
+import moe.shizuki.korrent.bittorrent.model.QBittorrentTorrentContent
+import moe.shizuki.korrent.bittorrent.model.QBittorrentTorrentInfo
+import moe.shizuki.korrent.bittorrent.model.QBittorrentTorrentProperty
+import moe.shizuki.korrent.bittorrent.model.QBittorrentTracker
+import moe.shizuki.korrent.bittorrent.model.QBittorrentTransferInfo
+import moe.shizuki.korrent.bittorrent.model.QBittorrentWebSeed
 import okhttp3.MultipartBody
-import retrofit2.http.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
+import retrofit2.http.Query
 
 interface QBittorrentService {
     @FormUrlEncoded
