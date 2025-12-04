@@ -2,7 +2,7 @@ package moe.shizuki.korrent.bittorrent.task
 
 import com.google.common.eventbus.EventBus
 import io.github.oshai.kotlinlogging.KotlinLogging
-import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
+import moe.shizuki.korrent.bittorrent.client.call.QBittorrentClient
 import moe.shizuki.korrent.bittorrent.event.QBittorrentEventPublisher
 import moe.shizuki.korrent.clientConfigFile
 import org.springframework.beans.factory.annotation.Autowired

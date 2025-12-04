@@ -2,8 +2,9 @@ package moe.shizuki.korrent.bittorrent.event
 
 import com.google.common.eventbus.EventBus
 import kotlinx.coroutines.runBlocking
-import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
+import moe.shizuki.korrent.bittorrent.client.call.QBittorrentClient
 import moe.shizuki.korrent.bittorrent.model.QBittorrentState
+import moe.shizuki.korrent.bittorrent.model.QBittorrentSyncMainData
 import moe.shizuki.korrent.bittorrent.model.QBittorrentTorrentInfo
 
 class QBittorrentEventPublisher(
@@ -17,7 +18,13 @@ class QBittorrentEventPublisher(
 
     fun polling(client: QBittorrentClient) {
         runBlocking {
-            val syncData = client.getSyncMainData(rid)
+            val response = client.getSyncMainData(rid).execute()
+
+            if (!response.isSuccessful) {
+                return@runBlocking
+            }
+
+            val syncData = response.body() as QBittorrentSyncMainData
 
             if (syncData.rid != null) {
                 rid = syncData.rid

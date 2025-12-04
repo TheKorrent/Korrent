@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.runBlocking
 import moe.shizuki.korrent.bittorrent.client.BitTorrentClientManager
-import moe.shizuki.korrent.bittorrent.client.QBittorrentClient
+import moe.shizuki.korrent.bittorrent.client.call.QBittorrentClient
 import moe.shizuki.korrent.clientConfigFile
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -55,7 +55,7 @@ class BitTorrentConfigManager {
                 if (config is QBittorrentConfig) {
                     val client = QBittorrentClient(config)
 
-                    client.login(config.qbittorrent.username, config.qbittorrent.password)
+                    client.login(config.qbittorrent.username, config.qbittorrent.password).execute()
                     clientManager.add(client)
                 }
             }
