@@ -40,7 +40,7 @@ class KorrentScheduleEventProcessor {
 
             for ((event, cron, config) in triples) {
                 var targetCron = cron
-                val targetConfig = if (cron.startsWith("/")) config.replace(".", "/") else "/" + config.replace(".", "/")
+                val targetConfig = if (config.startsWith("/")) config.replace(".", "/") else "/" + config.replace(".", "/")
 
                 if (config != "") {
                     targetCron = objectMapper.readTree(File(pluginConfigFolder, "$basePackage.json")).at(targetConfig).asText()
