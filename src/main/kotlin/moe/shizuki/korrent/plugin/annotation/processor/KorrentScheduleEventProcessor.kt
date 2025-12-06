@@ -36,6 +36,7 @@ class KorrentScheduleEventProcessor {
 
         fun register(basePackage: String, classLoader: ClassLoader) {
             val triples = getEvents(basePackage, classLoader)
+            val registeredEvents = mutableListOf<ScheduleEvent>()
 
             for ((event, cron, config) in triples) {
                 var targetCron = cron
@@ -49,8 +50,12 @@ class KorrentScheduleEventProcessor {
                     }
                 }
 
+                registeredEvents.add(event)
+
                 scheduleEventManager.register(targetCron, event)
             }
+
+            cache[basePackage] = registeredEvents.toTypedArray()
         }
 
         fun unregister(basePackage: String, classLoader: ClassLoader) {
