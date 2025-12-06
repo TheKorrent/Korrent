@@ -2,6 +2,7 @@ package moe.shizuki.korrent.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.eventbus.EventBus
+import moe.shizuki.korrent.eventbus
 import moe.shizuki.korrent.korrentConfigFile
 import moe.shizuki.korrent.model.KorrentConfig
 import moe.shizuki.korrent.objectMapper
@@ -12,8 +13,8 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class BeanConfig {
     @Bean
-    fun eventbus(): EventBus{
-        return EventBus()
+    fun eventbus(): EventBus {
+        return eventbus
     }
 
     @Bean
