@@ -41,6 +41,8 @@ class KorrentEventProcessor {
             for (listener in listeners) {
                 eventbus.unregister(listener)
             }
+
+            cache.remove(basePackage)
         }
     }
 }

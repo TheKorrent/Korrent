@@ -59,6 +59,8 @@ class KorrentScheduleEventProcessor {
             for (event in events) {
                 scheduleEventManager.unregister(event)
             }
+
+            cache.remove(basePackage)
         }
     }
 }
