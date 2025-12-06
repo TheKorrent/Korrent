@@ -9,20 +9,20 @@ class KorrentEventProcessor {
         private val cache = mutableMapOf<String, Array<Any>>()
 
         private fun getListeners(basePackage: String, classLoader: ClassLoader): Array<Any> {
-            val result = ClassGraph().apply {
+            ClassGraph().apply {
                 enableClassInfo()
                 enableAnnotationInfo()
                 acceptPackages(basePackage)
                 addClassLoader(classLoader)
-            }.scan()
+            }.scan().use { result ->
+                val listeners = result.getClassesWithAnnotation(KorrentEvent::class.java)
 
-            val listeners = result.getClassesWithAnnotation(KorrentEvent::class.java)
+                val instances = listeners.mapNotNull { listener ->
+                    listener.loadClass(true).getDeclaredConstructor().newInstance()
+                }
 
-            val instances = listeners.mapNotNull { listener ->
-                listener.loadClass(true).getDeclaredConstructor().newInstance()
+                return instances.toTypedArray()
             }
-
-            return instances.toTypedArray()
         }
 
         fun register(basePackage: String, classLoader: ClassLoader) {

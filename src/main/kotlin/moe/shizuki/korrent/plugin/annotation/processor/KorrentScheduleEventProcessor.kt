@@ -13,25 +13,25 @@ class KorrentScheduleEventProcessor {
         private val cache = mutableMapOf<String, Array<ScheduleEvent>>()
 
         private fun getEvents(basePackage: String, classLoader: ClassLoader): List<Triple<ScheduleEvent, String, String>> {
-            val result = ClassGraph().apply {
+            ClassGraph().apply {
                 enableClassInfo()
                 enableAnnotationInfo()
                 acceptPackages(basePackage)
                 addClassLoader(classLoader)
-            }.scan()
+            }.scan().use { result ->
+                val events = result.getClassesWithAnnotation(KorrentScheduleEvent::class.java)
 
-            val events = result.getClassesWithAnnotation(KorrentScheduleEvent::class.java)
+                val triples = events.mapNotNull { scheduleEvent ->
+                    val instance = scheduleEvent.loadClass(true)
+                    val event = instance.getDeclaredConstructor().newInstance() as ScheduleEvent
+                    val cron = scheduleEvent.annotationInfo[KorrentScheduleEvent::class.java.name].parameterValues.getValue("cron") as String
+                    val config = scheduleEvent.annotationInfo[KorrentScheduleEvent::class.java.name].parameterValues.getValue("config") as String
 
-            val triples = events.mapNotNull { scheduleEvent ->
-                val instance = scheduleEvent.loadClass(true)
-                val event = instance.getDeclaredConstructor().newInstance() as ScheduleEvent
-                val cron = scheduleEvent.annotationInfo[KorrentScheduleEvent::class.java.name].parameterValues.getValue("cron") as String
-                val config = scheduleEvent.annotationInfo[KorrentScheduleEvent::class.java.name].parameterValues.getValue("config") as String
+                    Triple(event, cron, config)
+                }
 
-                Triple(event, cron, config)
+                return triples
             }
-
-            return triples
         }
 
         fun register(basePackage: String, classLoader: ClassLoader) {

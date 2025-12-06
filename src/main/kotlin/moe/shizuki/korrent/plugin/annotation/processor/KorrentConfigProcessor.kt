@@ -8,20 +8,20 @@ import moe.shizuki.korrent.pluginConfigManager
 class KorrentConfigProcessor {
     companion object {
         private fun getConfigs(basePackage: String, classLoader: ClassLoader): Array<Any> {
-            val result = ClassGraph().apply {
+            ClassGraph().apply {
                 enableClassInfo()
                 enableAnnotationInfo()
                 acceptPackages(basePackage)
                 addClassLoader(classLoader)
-            }.scan()
+            }.scan().use { result ->
+                val configs = result.getClassesWithAnnotation(KorrentConfig::class.java)
 
-            val configs = result.getClassesWithAnnotation(KorrentConfig::class.java)
+                val instances = configs.mapNotNull { config ->
+                    config.loadClass(true).getDeclaredConstructor().newInstance()
+                }
 
-            val instances = configs.mapNotNull { config ->
-                config.loadClass(true).getDeclaredConstructor().newInstance()
+                return instances.toTypedArray()
             }
-
-            return instances.toTypedArray()
         }
 
         fun register(basePackage: String, classLoader: ClassLoader) {
