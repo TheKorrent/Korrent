@@ -23,13 +23,13 @@ abstract class KorrentPlugin(wrapper: PluginWrapper): Plugin(wrapper) {
         super.stop()
 
         KorrentEventProcessor.unregister(id)
-        KorrentScheduleEventProcessor.unregister(id, wrapper.pluginClassLoader)
+        KorrentScheduleEventProcessor.unregister(id)
     }
 
     override fun delete() {
         super.delete()
 
         KorrentEventProcessor.unregister(id)
-        KorrentScheduleEventProcessor.unregister(id, wrapper.pluginClassLoader)
+        KorrentScheduleEventProcessor.unregister(id)
     }
 }

@@ -58,7 +58,7 @@ class KorrentScheduleEventProcessor {
             cache[basePackage] = registeredEvents.toTypedArray()
         }
 
-        fun unregister(basePackage: String, classLoader: ClassLoader) {
+        fun unregister(basePackage: String) {
             val events = cache[basePackage] ?: return
 
             for (event in events) {
