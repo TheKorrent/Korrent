@@ -19,7 +19,7 @@
 > [!WARNING]
 > 项目仍处于开发期
 
-# ✨ 功能
+## ✨ 功能
 - [x] 热更新
 - [x] 插件隔离
 - [x] 事件驱动
@@ -28,11 +28,11 @@
 - [ ] Transmission 支持
 - [ ] Aria2 支持
 
-# 🤔 如何使用
+## 🤔 如何使用
 请见 [文档](https://thekorrent.github.io/)
 
-# 🤝 贡献
+## 🤝 贡献
 请见 [贡献指南](CONTRIBUTING.md)
 
-# 📜 许可证
+## 📜 许可证
 [GNU General Public License version 3](https://opensource.org/license/gpl-3-0)
