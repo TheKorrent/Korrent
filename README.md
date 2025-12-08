@@ -19,7 +19,7 @@
 > [!WARNING]
 > Work in progress
 
-# ✨ Features
+## ✨ Features
 - [x] Hot update
 - [x] Plugin isolation
 - [x] Event driven
@@ -28,11 +28,11 @@
 - [ ] Transmission Support
 - [ ] Aria2 Support
 
-# 🤔 How to use
+## 🤔 How to use
 See [Documents](https://thekorrent.github.io/)
 
-# 🤝 Contributing
+## 🤝 Contributing
 See [Contributing](CONTRIBUTING.md)
 
-# 📜 License
+## 📜 License
 [GNU General Public License version 3](https://opensource.org/license/gpl-3-0)
