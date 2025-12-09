@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-class ControllerPathPrefixConfiguration: WebMvcConfigurer {
+class ControllerPathPrefixConfig: WebMvcConfigurer {
     override fun configurePathMatch(configurer: PathMatchConfigurer) {
         configurer.addPathPrefix("/api/v0") { clazz ->
             clazz.isAnnotationPresent(RestController::class.java)
