@@ -8,4 +8,9 @@ class PluginDataManager(
 ) {
     val pluginDataFolder = File(moe.shizuki.korrent.pluginDataFolder, id)
     val pluginCacheFolder = File(cacheFolder, "plugins${File.separator}$id")
+
+    init {
+        pluginDataFolder.mkdirs()
+        pluginCacheFolder.mkdirs()
+    }
 }
