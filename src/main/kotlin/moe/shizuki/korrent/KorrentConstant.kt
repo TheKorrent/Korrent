@@ -1,3 +1,4 @@
+@file:JvmName("KorrentConstant")
 package moe.shizuki.korrent
 
 import com.fasterxml.jackson.annotation.JsonInclude
