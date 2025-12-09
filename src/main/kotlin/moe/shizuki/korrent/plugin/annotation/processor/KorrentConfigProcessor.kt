@@ -3,7 +3,7 @@ package moe.shizuki.korrent.plugin.annotation.processor
 import io.github.classgraph.ClassGraph
 import moe.shizuki.korrent.plugin.annotation.KorrentConfig
 import moe.shizuki.korrent.plugin.config.PluginConfig
-import moe.shizuki.korrent.pluginConfigManager
+import moe.shizuki.korrent.plugin.config.PluginConfigManager
 
 class KorrentConfigProcessor {
     companion object {
@@ -24,11 +24,11 @@ class KorrentConfigProcessor {
             }
         }
 
-        fun register(basePackage: String, classLoader: ClassLoader) {
+        fun register(basePackage: String, classLoader: ClassLoader, pluginConfigManager: PluginConfigManager) {
             val configs = getConfigs(basePackage, classLoader)
 
             for (config in configs) {
-                pluginConfigManager.register(basePackage, config as PluginConfig)
+                pluginConfigManager.register(config as PluginConfig)
             }
         }
     }

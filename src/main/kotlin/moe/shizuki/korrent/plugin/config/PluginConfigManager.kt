@@ -8,9 +8,10 @@ import java.io.File
 private val logger = KotlinLogging.logger {}
 
 class PluginConfigManager(
+    val id: String
 ) {
-    fun register(name: String, config: PluginConfig) {
-        val file = File(pluginConfigFolder, "${name}.json")
+    fun register(config: PluginConfig) {
+        val file = File(pluginConfigFolder, "${id}.json")
 
         file.parentFile.mkdirs()
 
@@ -20,10 +21,14 @@ class PluginConfigManager(
 
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, config)
 
-        logger.info { "Plugin config [$name] registered" }
+        logger.info { "Plugin config [$id] registered" }
     }
 
-    fun load(name: String, clazz: Class<*>): Any? {
-        return objectMapper.readValue(File(pluginConfigFolder, "${name}.json").readText(), clazz)
+    inline fun <reified T : Any> load(): T {
+        return objectMapper.readValue(File(pluginConfigFolder, "${id}.json").readText(), T::class.java)
+    }
+
+    fun <T> load(clazz: Class<T>): T {
+        return objectMapper.readValue(File(pluginConfigFolder, "${id}.json").readText(), clazz)
     }
 }
