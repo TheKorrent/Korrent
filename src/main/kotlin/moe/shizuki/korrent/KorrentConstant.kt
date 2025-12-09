@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.bittorrent.event.ScheduleEventManager
-import moe.shizuki.korrent.plugin.config.PluginConfigManager
 import java.io.File
 
 val objectMapper = jacksonObjectMapper().apply {
@@ -12,7 +11,6 @@ val objectMapper = jacksonObjectMapper().apply {
 }
 
 val eventbus = EventBus()
-val pluginConfigManager = PluginConfigManager()
 val scheduleEventManager = ScheduleEventManager()
 
 val pluginFolder = File("plugins/")
