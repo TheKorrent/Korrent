@@ -12,7 +12,7 @@
 
 	<groupId>moe.shizuki.korrent</groupId>
 	<artifactId>korrent</artifactId>
-	<version>0.6.0</version>
+	<version>0.6.1</version>
 
 	<name>Korrent</name>
     <description>Korrent</description>
