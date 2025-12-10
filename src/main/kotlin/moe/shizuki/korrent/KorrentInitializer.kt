@@ -17,8 +17,8 @@ class KorrentInitializer {
 
     fun init() {
         initExampleConfigs()
-        initPlugins()
         initBitTorrents()
+        initPlugins()
     }
 
     fun initBitTorrents() {
