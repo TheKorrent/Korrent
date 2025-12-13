@@ -27,7 +27,7 @@ jobs:
         run: mvn clean package
 
       - name: Upload full
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: korrent-full
           path: target/korrent.jar
@@ -50,7 +50,7 @@ jobs:
         run: mvn clean package -Dspring-boot.repackage.skip=true
 
       - name: Upload lite
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: korrent-lite
           path: target/korrent.jar
