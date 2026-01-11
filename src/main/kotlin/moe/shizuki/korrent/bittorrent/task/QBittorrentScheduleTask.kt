@@ -4,7 +4,6 @@ import com.google.common.eventbus.EventBus
 import io.github.oshai.kotlinlogging.KotlinLogging
 import moe.shizuki.korrent.bittorrent.client.call.QBittorrentClient
 import moe.shizuki.korrent.bittorrent.event.QBittorrentEventPublisher
-import moe.shizuki.korrent.clientConfigFile
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.support.CronTrigger
@@ -30,10 +29,10 @@ class QBittorrentScheduleTask {
             {
                 publisher.polling(client)
             },
-            CronTrigger(client.config.common.polling.cron)
+            CronTrigger(client.config.common.polling.schedule)
         )
 
-        logger.info { "Client [${client.config.common.name}] registered [${client.config.common.polling.cron}]" }
+        logger.info { "Client [${client.config.common.name}] registered [${client.config.common.polling.schedule}]" }
     }
 
     fun remove(clientName: String) {

@@ -7,7 +7,7 @@ data class BitTorrentCommonConfig(
     val proxy: Proxy = Proxy()
 ) {
     class Polling(
-        val cron: String = "*/5 * * * * *"
+        val schedule: String = "*/5 * * * * *"
     )
 
     class Proxy(
