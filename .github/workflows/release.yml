@@ -27,6 +27,14 @@ jobs:
           java-version: '25'
           cache: 'maven'
 
+      - name: Update Maven Project Version
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+
+        run: |
+          CLEAN_VERSION=${INPUT_VERSION#v}
+          mvn versions:set -DnewVersion="$CLEAN_VERSION" -DgenerateBackupPoms=false
+
       - name: Build
         run: mvn clean package -Dmaven.test.skip=true
 
@@ -68,6 +76,14 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_SECRET }}
           gpg-passphrase: GPG_PASSPHRASE
 
+      - name: Update Maven Project Version
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+
+        run: |
+          CLEAN_VERSION=${INPUT_VERSION#v}
+          mvn versions:set -DnewVersion="$CLEAN_VERSION" -DgenerateBackupPoms=false
+
       - name: Publish to Maven Central
         run: mvn clean deploy -Dspring-boot.repackage.skip=true -Dmaven.test.skip=true
         env:
@@ -100,6 +116,14 @@ jobs:
           distribution: 'temurin'
           java-version: '25'
           cache: 'maven'
+
+      - name: Update Maven Project Version
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+
+        run: |
+          CLEAN_VERSION=${INPUT_VERSION#v}
+          mvn versions:set -DnewVersion="$CLEAN_VERSION" -DgenerateBackupPoms=false
 
       - name: Build
         run: mvn clean package -Dmaven.test.skip=true
