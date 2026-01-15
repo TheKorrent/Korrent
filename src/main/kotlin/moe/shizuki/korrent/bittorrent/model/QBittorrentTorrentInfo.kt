@@ -22,6 +22,7 @@ data class QBittorrentTorrentInfo(
     @field:JsonProperty("f_l_piece_prio") val fLPiecePrio: Boolean?,
     @field:JsonProperty("force_start") val forceStart: Boolean?,
     @field:JsonProperty("has_metadata") val hasMetadata: Boolean?,
+    @field:JsonProperty("hash") val hash: String?,
     @field:JsonProperty("inactive_seeding_time_limit") val inactiveSeedingTimeLimit: Int?,
     @field:JsonProperty("infohash_v1") val infohashV1: String?,
     @field:JsonProperty("infohash_v2") val infohashV2: String?,
