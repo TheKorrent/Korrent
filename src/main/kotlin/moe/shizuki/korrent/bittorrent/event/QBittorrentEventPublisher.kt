@@ -33,19 +33,19 @@ class QBittorrentEventPublisher(
             trackers.clear()
             torrents.clear()
 
-            if (syncData.categories != null && syncData.categories.isNotEmpty()) {
+            if (!syncData.categories.isNullOrEmpty()) {
                 for (category in syncData.categories) {
                     categories.add(category.value.name)
                 }
             }
 
-            if (syncData.trackers != null && syncData.trackers.isNotEmpty()) {
+            if (!syncData.trackers.isNullOrEmpty()) {
                 for (tracker in syncData.trackers) {
                     trackers[tracker.key] = tracker.value.toHashSet()
                 }
             }
 
-            if (syncData.torrents != null && syncData.torrents.isNotEmpty()) {
+            if (!syncData.torrents.isNullOrEmpty()) {
                 for (torrent in syncData.torrents) {
                     torrents[torrent.key] = torrent.value
                 }
@@ -54,7 +54,7 @@ class QBittorrentEventPublisher(
             return
         }
 
-        if (syncData.categories != null && syncData.categories.isNotEmpty()) {
+        if (!syncData.categories.isNullOrEmpty()) {
             for (category in syncData.categories) {
                 if (categories.contains(category.value.name)) {
                     eventbus.post(QBittorrentCategoryChangedEvent(client, category.value))
@@ -67,26 +67,26 @@ class QBittorrentEventPublisher(
             }
         }
 
-        if (syncData.categoriesRemoved != null && syncData.categoriesRemoved.isNotEmpty()) {
+        if (!syncData.categoriesRemoved.isNullOrEmpty()) {
             for (category in syncData.categoriesRemoved) {
                 eventbus.post(QBittorrentCategoryRemovedEvent(client, category))
                 categories.remove(category)
             }
         }
 
-        if (syncData.tags != null && syncData.tags.isNotEmpty()) {
+        if (!syncData.tags.isNullOrEmpty()) {
             for (tag in syncData.tags) {
                 eventbus.post(QBittorrentTagCreatedEvent(client, tag))
             }
         }
 
-        if (syncData.tagsRemoved != null && syncData.tagsRemoved.isNotEmpty()) {
+        if (!syncData.tagsRemoved.isNullOrEmpty()) {
             for (tag in syncData.tagsRemoved) {
                 eventbus.post(QBittorrentTagRemovedEvent(client, tag))
             }
         }
 
-        if (syncData.trackers != null && syncData.trackers.isNotEmpty()) {
+        if (!syncData.trackers.isNullOrEmpty()) {
             for (tracker in trackers) {
                 for (torrent in tracker.value) {
                     if (syncData.trackers[tracker.key]?.contains(torrent) == true) {
@@ -105,7 +105,7 @@ class QBittorrentEventPublisher(
                 val torrents = tracker.value.toHashSet()
 
                 for (torrent in torrents) {
-                    if (trackers.get(torrent) != null) {
+                    if (trackers[torrent] != null) {
                         continue
                     }
 
@@ -116,14 +116,14 @@ class QBittorrentEventPublisher(
             }
         }
 
-        if (syncData.trackersRemoved != null && syncData.trackersRemoved.isNotEmpty()) {
+        if (!syncData.trackersRemoved.isNullOrEmpty()) {
             for (tracker in syncData.trackersRemoved) {
                 eventbus.post(QBittorrentTrackerRemovedEvent(client, tracker))
                 trackers.remove(tracker)
             }
         }
 
-        if (syncData.torrents != null && syncData.torrents.isNotEmpty()) {
+        if (!syncData.torrents.isNullOrEmpty()) {
             for (torrent in syncData.torrents) {
                 if (!torrents.contains(torrent.key)) {
                     eventbus.post(QBittorrentTorrentAddedEvent(client, torrent.key))
@@ -168,7 +168,7 @@ class QBittorrentEventPublisher(
             }
         }
 
-        if (syncData.torrentsRemoved != null && syncData.torrentsRemoved.isNotEmpty()) {
+        if (!syncData.torrentsRemoved.isNullOrEmpty()) {
             for (torrent in syncData.torrentsRemoved) {
                 eventbus.post(QBittorrentTorrentRemovedEvent(client, torrent))
                 torrents.remove(torrent)
