@@ -2,6 +2,7 @@
 package moe.shizuki.korrent
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.bittorrent.event.ScheduleEventManager
@@ -9,6 +10,9 @@ import java.io.File
 
 val objectMapper = jacksonObjectMapper().apply {
     setSerializationInclusion(JsonInclude.Include.NON_NULL)
+
+    configure(JsonParser.Feature.ALLOW_COMMENTS, true)
+    configure(JsonParser.Feature.ALLOW_TRAILING_COMMA, true)
 }
 
 val eventbus = EventBus()
