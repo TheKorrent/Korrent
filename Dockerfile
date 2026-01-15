@@ -1,4 +1,4 @@
-FROM eclipse-temurin:25
+FROM eclipse-temurin:25-jre-alpine
 LABEL authors="ShizukiNatsuki"
 
 COPY target/korrent.jar /app/korrent/
