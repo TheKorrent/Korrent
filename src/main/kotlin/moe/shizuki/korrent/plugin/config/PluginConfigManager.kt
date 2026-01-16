@@ -15,13 +15,13 @@ class PluginConfigManager(
 
         file.parentFile.mkdirs()
 
+        logger.debug { "Config registered: [$id]" }
+
         if (file.exists()) {
             return
         }
 
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, config)
-
-        logger.info { "Plugin config [$id] registered" }
     }
 
     inline fun <reified T : Any> load(): T {

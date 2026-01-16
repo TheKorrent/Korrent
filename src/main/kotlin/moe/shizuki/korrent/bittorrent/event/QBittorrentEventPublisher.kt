@@ -1,6 +1,7 @@
 package moe.shizuki.korrent.bittorrent.event
 
 import com.google.common.eventbus.EventBus
+import io.github.oshai.kotlinlogging.KotlinLogging
 import moe.shizuki.korrent.bittorrent.client.call.QBittorrentClient
 import moe.shizuki.korrent.bittorrent.model.QBittorrentState.ALLOCATING
 import moe.shizuki.korrent.bittorrent.model.QBittorrentState.CHECKING_DOWNLOAD
@@ -24,6 +25,8 @@ import moe.shizuki.korrent.bittorrent.model.QBittorrentState.UNKNOWN
 import moe.shizuki.korrent.bittorrent.model.QBittorrentState.UPLOADING
 import moe.shizuki.korrent.bittorrent.model.QBittorrentTorrentInfo
 
+private val logger = KotlinLogging.logger {}
+
 class QBittorrentEventPublisher(
     val eventbus: EventBus,
 ) {
@@ -37,16 +40,22 @@ class QBittorrentEventPublisher(
         val response = client.getSyncMainData(rid).execute()
 
         if (!response.isSuccessful) {
+            logger.error { "Sync data failed: [${response.code()}] [${response.message()}]" }
+
             return
         }
 
         val syncData = response.body()
 
         if (syncData == null) {
+            logger.error { "Sync data is null" }
+
             return
         }
 
         if (syncData.rid == null) {
+            logger.error { "Sync data rid is null" }
+
             return
         }
 

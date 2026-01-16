@@ -34,20 +34,20 @@ class ScheduleEventManager {
 
         event.init(client!!)
 
-        tasks[event.javaClass.name] = taskScheduler!!.schedule(
+        tasks[event::class.java.name] = taskScheduler!!.schedule(
             {
                 eventbus!!.post(event)
             },
             CronTrigger(cron)
         )
 
-        logger.info { "ScheduleEvent registered: [${event::class}]" }
+        logger.debug { "ScheduleEvent registered: [${event::class.java.name}]" }
     }
 
     fun unregister(event: ScheduleEvent) {
-        tasks[event.javaClass.name]?.cancel(false)
-        tasks.remove(event.javaClass.name)
+        tasks[event::class.java.name]?.cancel(false)
+        tasks.remove(event::class.java.name)
 
-        logger.info { "ScheduleEvent unregistered: [${event::class}]" }
+        logger.debug { "ScheduleEvent unregistered: [${event::class.java.name}]" }
     }
 }

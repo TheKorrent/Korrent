@@ -1,8 +1,11 @@
 package moe.shizuki.korrent.plugin.annotation.processor
 
 import io.github.classgraph.ClassGraph
+import io.github.oshai.kotlinlogging.KotlinLogging
 import moe.shizuki.korrent.eventbus
 import moe.shizuki.korrent.plugin.annotation.KorrentEvent
+
+val logger = KotlinLogging.logger {}
 
 class KorrentEventProcessor {
     companion object {
@@ -32,6 +35,8 @@ class KorrentEventProcessor {
 
             for (listener in listeners) {
                 eventbus.register(listener)
+
+                logger.debug { "Listener registered: [${listener::class.java.name}]" }
             }
         }
 
@@ -40,6 +45,8 @@ class KorrentEventProcessor {
 
             for (listener in listeners) {
                 eventbus.unregister(listener)
+
+                logger.debug { "Listener unregistered: [${listener::class.java.name}]" }
             }
 
             cache.remove(basePackage)
