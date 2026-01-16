@@ -144,12 +144,12 @@ class QBittorrentEventPublisher(
                         eventbus.post(QBittorrentTorrentDownloadedEvent(client, torrent.key))
                     }
 
-                    if (info?.state != torrent.value.state) {
+                    if (info?.state != torrent.value.state && info?.state != null) {
                         eventbus.post(
                             QBittorrentTorrentStateChangedEvent(
                                 client,
                                 torrent.key,
-                                info?.state!!,
+                                info.state,
                                 torrent.value.state!!
                             )
                         )
