@@ -171,7 +171,7 @@ class QBittorrentEventPublisher(
                         META_DOWNLOAD -> QBittorrentTorrentMetaDownloadEvent(client, torrent.key)
                         STOPPED_DOWNLOAD -> QBittorrentTorrentStoppedDownloadEvent(client, torrent.key)
                         QUEUED_DOWNLOAD -> QBittorrentTorrentQueuedDownloadEvent(client, torrent.key)
-                        STALLED_DOWNLOAD -> QBittorrentStalledDownloadEvent(client, torrent.key)
+                        STALLED_DOWNLOAD -> QBittorrentTorrentStalledDownloadEvent(client, torrent.key)
                         CHECKING_DOWNLOAD -> QBittorrentTorrentCheckingDownloadEvent(client, torrent.key)
                         FORCED_DOWNLOAD -> QBittorrentTorrentForcedDownloadEvent(client, torrent.key)
                         CHECKING_RESUME_DATA -> QBittorrentTorrentCheckingResumeDataEvent(client, torrent.key)
