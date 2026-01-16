@@ -2,8 +2,26 @@ package moe.shizuki.korrent.bittorrent.event
 
 import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.bittorrent.client.call.QBittorrentClient
-import moe.shizuki.korrent.bittorrent.model.QBittorrentState
-import moe.shizuki.korrent.bittorrent.model.QBittorrentState.*
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.ALLOCATING
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.CHECKING_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.CHECKING_RESUME_DATA
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.CHECKING_UPLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.DOWNLOADING
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.ERROR
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.FORCED_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.FORCED_UPLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.META_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.MISSING_FILES
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.MOVING
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.QUEUED_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.QUEUED_UPLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.STALLED_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.STALLED_UPLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.STOPPED_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.STOPPED_UPLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.Type
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.UNKNOWN
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.UPLOADING
 import moe.shizuki.korrent.bittorrent.model.QBittorrentTorrentInfo
 
 class QBittorrentEventPublisher(
@@ -164,7 +182,7 @@ class QBittorrentEventPublisher(
                     eventbus.post(event)
 
                     if (oldState != null) {
-                        if (newState.type == QBittorrentState.Type.UPLOAD && oldState.type == QBittorrentState.Type.DOWNLOAD) {
+                        if (newState.type == Type.UPLOAD && oldState.type == Type.DOWNLOAD) {
                             eventbus.post(QBittorrentTorrentDownloadedEvent(client, torrent.key))
                         }
 
@@ -172,14 +190,14 @@ class QBittorrentEventPublisher(
                             eventbus.post(QBittorrentTorrentStateChangedEvent(client, torrent.key, oldState, newState))
                         }
                     }
-                }
+                } else {
+                    if (oldState == UPLOADING) {
+                        eventbus.post(QBittorrentTorrentUploadingEvent(client, torrent.key))
+                    }
 
-                if (oldState == QBittorrentState.UPLOADING) {
-                    eventbus.post(QBittorrentTorrentUploadingEvent(client, torrent.key))
-                }
-
-                if (oldState == QBittorrentState.DOWNLOADING) {
-                    eventbus.post(QBittorrentTorrentDownloadingEvent(client, torrent.key))
+                    if (oldState == DOWNLOADING) {
+                        eventbus.post(QBittorrentTorrentDownloadingEvent(client, torrent.key))
+                    }
                 }
 
                 torrents[torrent.key] = torrents[torrent.key]?.mergeWith(torrent.value) ?: torrent.value
