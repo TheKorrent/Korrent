@@ -12,7 +12,7 @@ enum class QBittorrentState(
     STOPPED_UPLOAD("stoppedUP", Type.UPLOAD),
     QUEUED_UPLOAD("queuedUP", Type.UPLOAD),
     STALLED_UPLOAD("stalledUP", Type.UPLOAD),
-    CHECKING_FINISHED("checkingUP", Type.UPLOAD),
+    CHECKING_UPLOAD("checkingUP", Type.UPLOAD),
     FORCED_UPLOAD("forcedUP", Type.UPLOAD),
     ALLOCATING("allocating", Type.NONE),
     DOWNLOADING("downloading", Type.DOWNLOAD),

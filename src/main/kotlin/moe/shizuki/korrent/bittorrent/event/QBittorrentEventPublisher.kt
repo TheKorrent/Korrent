@@ -2,7 +2,26 @@ package moe.shizuki.korrent.bittorrent.event
 
 import com.google.common.eventbus.EventBus
 import moe.shizuki.korrent.bittorrent.client.call.QBittorrentClient
-import moe.shizuki.korrent.bittorrent.model.QBittorrentState
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.ALLOCATING
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.CHECKING_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.CHECKING_RESUME_DATA
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.CHECKING_UPLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.DOWNLOADING
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.ERROR
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.FORCED_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.FORCED_UPLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.META_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.MISSING_FILES
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.MOVING
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.QUEUED_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.QUEUED_UPLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.STALLED_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.STALLED_UPLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.STOPPED_DOWNLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.STOPPED_UPLOAD
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.Type
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.UNKNOWN
+import moe.shizuki.korrent.bittorrent.model.QBittorrentState.UPLOADING
 import moe.shizuki.korrent.bittorrent.model.QBittorrentTorrentInfo
 
 class QBittorrentEventPublisher(
@@ -138,16 +157,32 @@ class QBittorrentEventPublisher(
                 val oldState = torrents[torrent.key]?.state
 
                 if (newState != null) {
-                    if (newState == QBittorrentState.STOPPED_UPLOAD) {
-                        eventbus.post(QBittorrentTorrentStoppedUploadEvent(client, torrent.key))
+                    val event = when (newState) {
+                        ERROR -> QBittorrentTorrentErrorEvent(client, torrent.key)
+                        MISSING_FILES -> QBittorrentTorrentMissingFilesEvent(client, torrent.key)
+                        UPLOADING -> QBittorrentTorrentUploadingEvent(client, torrent.key)
+                        STOPPED_UPLOAD -> QBittorrentTorrentStoppedUploadEvent(client, torrent.key)
+                        QUEUED_UPLOAD -> QBittorrentTorrentQueuedUploadEvent(client, torrent.key)
+                        STALLED_UPLOAD -> QBittorrentTorrentStalledUploadEvent(client, torrent.key)
+                        CHECKING_UPLOAD -> QBittorrentTorrentCheckingUploadEvent(client, torrent.key)
+                        FORCED_UPLOAD -> QBittorrentTorrentForcedUploadEvent(client, torrent.key)
+                        ALLOCATING -> QBittorrentTorrentAllocatingEvent(client, torrent.key)
+                        DOWNLOADING -> QBittorrentTorrentDownloadingEvent(client, torrent.key)
+                        META_DOWNLOAD -> QBittorrentTorrentMetaDownloadEvent(client, torrent.key)
+                        STOPPED_DOWNLOAD -> QBittorrentTorrentStoppedDownloadEvent(client, torrent.key)
+                        QUEUED_DOWNLOAD -> QBittorrentTorrentQueuedDownloadEvent(client, torrent.key)
+                        STALLED_DOWNLOAD -> QBittorrentStalledDownloadEvent(client, torrent.key)
+                        CHECKING_DOWNLOAD -> QBittorrentTorrentCheckingDownloadEvent(client, torrent.key)
+                        FORCED_DOWNLOAD -> QBittorrentTorrentForcedDownloadEvent(client, torrent.key)
+                        CHECKING_RESUME_DATA -> QBittorrentTorrentCheckingResumeDataEvent(client, torrent.key)
+                        MOVING -> QBittorrentTorrentMovingEvent(client, torrent.key)
+                        UNKNOWN -> QBittorrentTorrentUnknownEvent(client, torrent.key)
                     }
 
-                    if (newState == QBittorrentState.STOPPED_DOWNLOAD) {
-                        eventbus.post(QBittorrentTorrentStoppedDownloadEvent(client, torrent.key))
-                    }
+                    eventbus.post(event)
 
                     if (oldState != null) {
-                        if (newState.type == QBittorrentState.Type.UPLOAD && oldState.type == QBittorrentState.Type.DOWNLOAD) {
+                        if (newState.type == Type.UPLOAD && oldState.type == Type.DOWNLOAD) {
                             eventbus.post(QBittorrentTorrentDownloadedEvent(client, torrent.key))
                         }
 
@@ -155,14 +190,14 @@ class QBittorrentEventPublisher(
                             eventbus.post(QBittorrentTorrentStateChangedEvent(client, torrent.key, oldState, newState))
                         }
                     }
-                }
+                } else {
+                    if (oldState == UPLOADING) {
+                        eventbus.post(QBittorrentTorrentUploadingEvent(client, torrent.key))
+                    }
 
-                if (oldState == QBittorrentState.UPLOADING) {
-                    eventbus.post(QBittorrentTorrentUploadingEvent(client, torrent.key))
-                }
-
-                if (oldState == QBittorrentState.DOWNLOADING) {
-                    eventbus.post(QBittorrentTorrentDownloadingEvent(client, torrent.key))
+                    if (oldState == DOWNLOADING) {
+                        eventbus.post(QBittorrentTorrentDownloadingEvent(client, torrent.key))
+                    }
                 }
 
                 torrents[torrent.key] = torrents[torrent.key]?.mergeWith(torrent.value) ?: torrent.value
