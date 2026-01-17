@@ -20,9 +20,6 @@ val objectMapper = jacksonObjectMapper().apply {
 val eventbus = EventBus()
 val scheduleEventManager = ScheduleEventManager()
 
-val defaultNullPluginConfigManager = PluginConfigManager("null")
-val defaultNullPluginDataManager = PluginDataManager("null")
-
 val pluginFolder = File("plugins/")
 val dataFolder = File("data/")
 val cacheFolder = File("cache/")
@@ -33,3 +30,6 @@ val pluginDataFolder = File(dataFolder, "plugins/")
 val pluginConfigFolder = File(configFolder, "plugins/")
 val korrentConfigFile = File(configFolder, "korrent.json")
 val clientConfigFile = File(configFolder, "client.json")
+
+val defaultNullPluginConfigManager = PluginConfigManager("null")
+val defaultNullPluginDataManager = PluginDataManager("null")
